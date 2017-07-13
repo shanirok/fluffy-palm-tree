@@ -1,0 +1,44 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.contrib import admin
+
+# Register your models here.
+from getriddb.models import Customer, Pickup, Inventory
+
+class InventoryAdmin(admin.ModelAdmin):
+#    fields = ['id', 'itemtype']
+    # id
+    # indate 
+    # pickup 
+    # category 
+    # segment 
+    # itemtype 
+    # brand 
+    # size 
+    # color 
+    # firstassessment 
+    # donationvalue 
+    # condition 
+    # cut 
+    # style 
+    # fabric 
+    # usecase 
+    # postprice 
+    # origprice 
+    # status 
+    # statuschangedate 
+    # location 
+
+
+    
+    #    fieldsets = [
+#        (None,               {'fields': ['question_text']}),
+#        ('', {'fields': ['pub_date'], 'classes': ['collapse']}),
+#    ]
+    list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
+    list_filter = ['firstassessment']
+    
+admin.site.register(Customer)
+admin.site.register(Pickup)
+admin.site.register(Inventory, InventoryAdmin)
