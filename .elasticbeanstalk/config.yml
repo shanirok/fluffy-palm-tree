@@ -1,6 +1,6 @@
 branch-defaults:
   master:
-    environment: null
+    environment: django-env
 global:
   application_name: my_eb_site
   branch: null
