@@ -4,17 +4,18 @@ import datetime
 
 from .models import Inventoryitem, Pickup, Customer, Segment, Type, Brand, Size, Color, Cut, Fabric, Usecase
 
-class InventoryitemForm(forms.ModelForm):
+class InventoryitemForm(forms.ModelForm):    
+        
     class Meta:
         model = Inventoryitem
         fields = ('__all__')
 
     indate = forms.DateField(label='Date entered DB', initial=datetime.date.today, disabled=True)
 
-   # pickup = forms.ModelChoiceField(
-   #     queryset=Pickup.objects.all(),
-   #     widget=autocomplete.ModelSelect2(url='pickup-autocomplete')
-   # )
+    pickup = forms.ModelChoiceField(
+        queryset=Pickup.objects.all(),
+        widget=autocomplete.ModelSelect2(url='pickup-autocomplete')
+    )
 
     category  = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='category-autocomplete'))
 
@@ -49,21 +50,24 @@ class InventoryitemForm(forms.ModelForm):
 
     condition = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='condition-autocomplete'))
     
-    cut = forms.ModelMultipleChoiceField(
-        queryset= Cut.objects.filter(itemtype=(Type.objects.get(itemtype='Dress').id)),
-        widget=forms.CheckboxSelectMultiple
+   # cut = forms.ModelMultipleChoiceField(
+   #     queryset= Cut.objects.all(),
+   #     widget=forms.CheckboxSelectMultiple(),
+   # )
+    cut = forms.ModelChoiceField(
+        queryset=Cut.objects.all(),
+        widget=autocomplete.ModelSelect2Multiple('cut-autocomplete', forward=['itemtype']),
     )
     
-
-
+    
     fabric = forms.ModelChoiceField(
         queryset=Fabric.objects.all(),
-        widget=autocomplete.ModelSelect2('fabric-autocomplete')
+        widget=autocomplete.ModelSelect2Multiple('fabric-autocomplete')
     )
 
     usecase = forms.ModelChoiceField(
         queryset=Usecase.objects.all(),
-        widget=autocomplete.ModelSelect2('usecase-autocomplete')
+        widget=autocomplete.ModelSelect2Multiple('usecase-autocomplete')
     )
 
     postprice = forms.DecimalField (min_value=1, decimal_places=2) 
@@ -74,9 +78,19 @@ class InventoryitemForm(forms.ModelForm):
     statuschangedate = forms.DateField(label='Status Changed', initial=datetime.date.today)
     location =  forms.CharField
 
+   # Title = 
 
-    #    image = forms.FileField(required=False, widget=forms.FileInput)
-# widget=autocomplete.ModelSelect2Multiple(url='cut-autocomplete')
-def clean_name(self):
+    #Description =
+
+    #Up4saledate =
+
+    def __init__(self, *args, **kwargs):
+        super(InventoryitemForm, self).__init__(auto_id=True, *args, **kwargs)
+            
+    def clean_name(self):
         # do something that validates your data
         return self.cleaned_data["name"]
+
+    
+    #    image = forms.FileField(required=False, widget=forms.FileInput)
+    # widget=autocomplete.ModelSelect2Multiple(url='cut-autocomplete')

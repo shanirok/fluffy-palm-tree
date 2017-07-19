@@ -14,7 +14,13 @@ class PickupAdmin(admin.ModelAdmin):
     list_display = ('id', 'pickupdate', 'pickupsize', 'pickupprice', 'customer')
 
     
-class InventoryitemAdmin(admin.ModelAdmin):    
+class InventoryitemAdmin(admin.ModelAdmin):
+    class Media:
+        css = {
+            "all": ("my_styles.css",)
+        }
+        js = ("getriddb/js/my_code.js",)
+
     list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
     list_filter = ['firstassessment']
     search_fields = ['brand']
@@ -25,13 +31,25 @@ class InventoryitemAdmin(admin.ModelAdmin):
             'fields': ('indate', 'pickup', 'category', 'segment', 'itemtype', 'brand', 'size', 'color', 'firstassessment', 'donationvalue')
         }),
         ('If item is for sale', {
-            'classes': ('collapse',),
+            'classes': ('forsale',),
             'fields': ('condition', 'cut', 'fabric', 'usecase', 'postprice', 'origprice'),
         }),
         ('Update Status', {
             'fields': ('status', 'statuschangedate', 'location'),
         }),
+   #     ('Up for sale', {
+   #         'fields': ('status', 'title'),
+   #         'readonly_fields': ('title'),
+   #     }),
     )
+
+    def clean(self):
+        # Don't allow draft entries to have a pub_date.
+#        if self.status == 'draft' and self.pub_date is not None:
+#            raise ValidationError(_('Draft entries may not have a publication date.'))
+        # Set the pub_date for published items if it hasn't been set already.
+        if self.status == 'ready4sale' and self.statuschangedate is None:
+            self.statuschangedate = datetime.date.today()
     
 class SegmentAdmin(admin.ModelAdmin):
     list_display = ('category', 'segment')

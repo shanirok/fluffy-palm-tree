@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from dal import autocomplete
 
 from getriddb.models import Inventoryitem, Pickup, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, Usecase
+from getriddb.forms import InventoryitemForm
 
 # Create your views here.
 
@@ -112,7 +113,7 @@ class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
 
         category = self.forwarded.get('category', None)
         segment = self.forwarded.get('segment', None)
-        itemtype = self.forwarded.get('itemtype', None)        
+        itemtype = self.forwarded.get('itemtype', None)                
         
         qs = Size.objects.all()
 
@@ -130,7 +131,9 @@ class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
         segment = self.forwarded.get('segment', None)
         itemtype = self.forwarded.get('itemtype', None)
         return self.get_queryset().create(category_id=category, segment_id=segment, itemtype_id=itemtype, size=text)
+
     
+  
 class ColorModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -152,19 +155,29 @@ class ConditionAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['New in a box', 'New w/o tags', 'New w tags', 'Like new', 'Gently used', 'Used']
 
+
 class CutModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
         if not self.request.user.is_authenticated():
             return cut.objects.none()
 
+        itemtype = self.forwarded.get('itemtype', None) 
         qs = Cut.objects.all()
 
+        if itemtype:
+            qs = qs.filter(itemtype=itemtype)
+            
         if self.q:
             qs = qs.filter(cut__istartswith=self.q)
             
         return qs
-  
+
+    def create_object(self, text):
+        """Create an object given a text."""
+        itemtype = self.forwarded.get('itemtype', None)
+        return self.get_queryset().create(itemtype_id=itemtype, cut=text)
+    
 class FabricModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !

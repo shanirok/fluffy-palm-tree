@@ -1,0 +1,6 @@
+<script type="text/javascript">
+    document.getElementById('donationvalue').hide();
+    if (document.getElementById('firstassessment')=='Donation') {
+        document.getElementById('donationvalue').show();
+    }
+</script>

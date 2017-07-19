@@ -62,6 +62,13 @@ class Inventoryitem(models.Model):
     status = models.CharField(max_length=200, blank=True, default='')
     statuschangedate = models.DateField(blank=True, null=True)
     location = models.CharField(max_length=200, blank=True, default='')
+    #Title = 
+    #Description =
+    #Up4saledate =
+
+#    @property
+#    def title(self):
+#        return "%s %s %s" % ( self.brand, self.color, self.size)
 
     def __str__(self):              # __unicode__ on Python 2
         return str(self.id)
