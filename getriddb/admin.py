@@ -53,24 +53,27 @@ class InventoryitemAdmin(admin.ModelAdmin):
         # Set the pub_date for published items if it hasn't been set already.
 #        if self.status == 'ready4sale' and self.statuschangedate is None:
 #            self.statuschangedate = datetime.date.today()
+
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category')
     
 class SegmentAdmin(admin.ModelAdmin):
-    list_display = ('category', 'segment')
+    list_display = ('id', 'category', 'segment')
 
 class TypeAdmin(admin.ModelAdmin):
-    list_display = ('category', 'segment', 'itemtype')
+    list_display = ('id', 'category', 'segment', 'itemtype')
 
 class SizeAdmin(admin.ModelAdmin):
-    list_display = ('category', 'segment', 'size')
+    list_display = ('id', 'category', 'segment', 'size')
 
 class CutAdmin(admin.ModelAdmin):
-    list_display = ('category', 'itemtype', 'cut')
+    list_display = ('id', 'category', 'itemtype', 'cut')
 
         
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Pickup, PickupAdmin)
 admin.site.register(Inventoryitem, InventoryitemAdmin)
-admin.site.register(Category)
+admin.site.register(Category, CategoryAdmin)
 admin.site.register(Segment, SegmentAdmin)
 admin.site.register(Type, TypeAdmin)
 admin.site.register(Brand)
