@@ -67,7 +67,7 @@ class SizeAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'segment', 'size')
 
 class CutAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'itemtype', 'cut')
+    list_display = ('id', 'category', 'segment', 'itemtype', 'cut')
 
         
 admin.site.register(Customer, CustomerAdmin)
