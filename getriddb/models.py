@@ -84,14 +84,14 @@ class Inventoryitem(models.Model):
     itemprofit = models.FloatField(blank=True, null=True, help_text="(updated on save)")
     customerpayout = models.FloatField(blank=True, null=True, help_text="(updated on save)")
     
-    def __init__(self, *args, **kwargs):
-        super(Inventoryitem, self).__init__(*args, **kwargs)
-        self.old_status = self.status
+    #def __init__(self, *args, **kwargs):
+        #super(Inventoryitem, self).__init__(*args, **kwargs)
+        #self.old_status = self.status
 
-    def save(self, *args, **kwargs):
-        if self.old_status != self.status:
-            self.statuschangedate = datetime.now()
-        super(Inventoryitem, self).save(*args, **kwargs)
+    #def save(self, *args, **kwargs):
+     #   if self.old_status != self.status:
+     #       self.statuschangedate = datetime.now()
+     #   super(Inventoryitem, self).save(*args, **kwargs)
     
     def save(self, *args, **kwargs):
         self.title = self.brand + self.color + self.size
@@ -99,11 +99,10 @@ class Inventoryitem(models.Model):
         self.itemprofit = float(self.finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
         self.customerpayout = float(self.itemProfit/2)
         
-        super(Product, self).save(*args, **kwargs)
-        
+        super(Product, self).save(*args, **kwargs) 
     
-    def __str__(self):              # __unicode__ on Python 2
-        return str(self.id)
+  #  def __str__(self):              # __unicode__ on Python 2
+  #      return str(self.id)
 
     class Meta:
         db_table = 'inventoryitem'

@@ -112,13 +112,12 @@ class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
             return size.objects.none()
 
         category = self.forwarded.get('category', None)
-        segment = self.forwarded.get('segment', None)
-        itemtype = self.forwarded.get('itemtype', None)                
+        segment = self.forwarded.get('segment', None)                      
         
         qs = Size.objects.all()
 
         if category:
-            qs = qs.filter(category=category, segment=segment, itemtype=itemtype)
+            qs = qs.filter(category=category, segment=segment)
             
         if self.q:
             qs = qs.filter(size__istartswith=self.q)

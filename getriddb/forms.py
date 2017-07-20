@@ -37,7 +37,7 @@ class InventoryitemForm(forms.ModelForm):
     
     size = forms.ModelChoiceField(
         queryset=Size.objects.all(),
-        widget=autocomplete.ModelSelect2('size-autocomplete', forward=['category', 'segment', 'itemtype'])
+        widget=autocomplete.ModelSelect2('size-autocomplete', forward=['category', 'segment'])
     )
 
     color = forms.ModelChoiceField(
