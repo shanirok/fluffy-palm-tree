@@ -61,7 +61,7 @@ class TypeAdmin(admin.ModelAdmin):
     list_display = ('category', 'segment', 'itemtype')
 
 class SizeAdmin(admin.ModelAdmin):
-    list_display = ('category', 'segment', 'itemtype', 'size')
+    list_display = ('category', 'segment', 'size')
 
 class CutAdmin(admin.ModelAdmin):
     list_display = ('category', 'itemtype', 'cut')

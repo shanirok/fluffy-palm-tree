@@ -27,7 +27,12 @@ $(document).ready(function() {
 	    $('fieldset.module.aligned.forsale').hide();
 	    $('fieldset.module.aligned.upforsale').hide();
 	}
-    });				  
+    });
+
+    $('#status').change(function() {
+	
+    });
+    
 });
 
 /*

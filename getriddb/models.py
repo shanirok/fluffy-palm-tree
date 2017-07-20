@@ -134,7 +134,6 @@ class Brand(models.Model):
 class Size(models.Model):
     category =  models.ForeignKey('Category')
     segment =  models.ForeignKey('Segment')
-    itemtype =  models.ForeignKey('Type')
     size = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
         return str(self.size)
