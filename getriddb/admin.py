@@ -13,7 +13,9 @@ class CustomerAdmin(admin.ModelAdmin):
 class PickupAdmin(admin.ModelAdmin):
     list_display = ('id', 'pickupdate', 'pickupsize', 'pickupprice', 'customer')
 
-    
+#    list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
+ # list_filter = ['firstassessment']
+    # search_fields = ['id', 'brand']
 class InventoryitemAdmin(admin.ModelAdmin):
     class Media:
         css = {
@@ -21,28 +23,27 @@ class InventoryitemAdmin(admin.ModelAdmin):
         }
         js = ("getriddb/js/my_code.js",)
 
-    #list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
-    # list_filter = ['firstassessment']
-    # search_fields = ['id', 'brand']
+    list_display = ('id','item_pickup', 'item_type', 'item_brand', 'item_firstassessment')
+        
     list_per_page = 200
     form = InventoryitemForm
-    #fields = ('__all__')
-    readonly_fields = ('title','description', 'itemprofit', 'customerpayout')
+        #fields = ('__all__')
+    readonly_fields = ('title','description', 'item_profit', 'customerpayout')
     fieldsets = (
-        (None, {
-            'fields': ('indate', 'pickup', 'category', 'segment', 'itemtype', 'brand', 'size', 'color', 'firstassessment', 'donationvalue')
-        }),
-        ('If item is for sale', {
-            'classes': ('forsale',),
-            'fields': ('condition', 'cut', 'fabric', 'usecase', 'postprice', 'origprice'),
-        }),
-        ('Update Status', {
-            'fields': ('status', 'statuschangedate', 'location'),
-        }),
-        ('Up for sale', {
-            'classes': ('upforsale',),
-            'fields': ('title', 'description', 'up4saledate', ('ebay', 'poshmark', 'vinted', 'tradesy', 'craigslist', 'letgo', 'offerup', 'offline'), 'solddate', 'finalsellingprice', 'MKTplacefee', 'shippingcosts', 'itemprofit', 'customerpayout'),
-        }),
+         (None, {
+             'fields': ('item_indate', 'item_pickup', 'item_category', 'item_segment', 'item_type', 'item_brand', 'item_size', 'item_color', 'item_firstassessment', 'item_donationvalue')
+         }),
+         ('If item is for sale', {
+             'classes': ('forsale',),
+             'fields': ('item_condition', 'item_cut', 'item_fabric', 'item_usecase', 'item_postprice', 'item_origprice'),
+         }),
+         ('Update Status', {
+             'fields': ('item_status', 'item_statuschangedate', 'item_location'),
+         }),
+         ('Up for sale', {
+             'classes': ('upforsale',),
+             'fields': ('title', 'description', 'item_up4saledate', ('ebay', 'poshmark', 'vinted', 'tradesy', 'craigslist', 'letgo', 'offerup', 'offline'), 'item_solddate', 'item_finalsellingprice', 'MKTplacefee', 'shippingcosts', 'item_profit', 'customerpayout'),
+         }),
     )
 
     

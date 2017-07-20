@@ -42,29 +42,29 @@ class Pickup(models.Model):
         
 class Inventoryitem(models.Model):
     id = models.AutoField(primary_key=True)
-    indate = models.DateField(blank=True, null=True)
-    pickup = models.ForeignKey('Pickup', related_name='Inventoryitems')
-    category = models.CharField(max_length=200, blank=True, default='')
-    segment = models.CharField(max_length=200, blank=True, null=True, default='')
-    itemtype = models.CharField(max_length=200, blank=True, null=True, default='')
-    brand = models.CharField(max_length=200, blank=True, null=True, default='')
-    quality = models.CharField(max_length=200, blank=True, null=True, default='')
-    size = models.CharField(max_length=200,  blank=True, null=True, default='')
-    color = models.CharField(max_length=200, blank=True, null=True, default='')
-    firstassessment = models.CharField(max_length=200, blank=True, null=True, default='')
-    donationvalue = models.FloatField(blank=True, null=True)
-    condition = models.CharField(max_length=200, blank=True, null=True, default='')
-    defectdetails = models.CharField(max_length=200, blank=True, null=True, default='')
-    cut = models.CharField(max_length=200, blank=True, null=True, default='')
-    style = models.CharField(max_length=200, blank=True, null=True, default='')
-    fabric = models.CharField(max_length=200, blank=True, null=True, default='')
-    usecase = models.CharField(max_length=200, blank=True, null=True, default='')
-    postprice = models.FloatField(blank=True, null=True)
-    origprice = models.FloatField(blank=True, null=True)
-    status = models.CharField(max_length=200, blank=True, default='')
-    statuschangedate = models.DateField(blank=True, null=True)
-    location = models.CharField(max_length=200, blank=True, null=True, default='')
-    up4saledate = models.DateField(blank=True, null=True)
+    item_indate = models.DateField(blank=True, null=True)
+    item_pickup = models.ForeignKey('Pickup', related_name='Inventoryitems')
+    item_category = models.CharField(max_length=200, blank=True, default='')
+    item_segment = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_type = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_brand = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_quality = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_size = models.CharField(max_length=200,  blank=True, null=True, default='')
+    item_color = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_firstassessment = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_donationvalue = models.FloatField(blank=True, null=True)
+    item_condition = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_defectdetails = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_cut = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_style = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_fabric = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_usecase = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_postprice = models.FloatField(blank=True, null=True)
+    item_origprice = models.FloatField(blank=True, null=True)
+    item_status = models.CharField(max_length=200, blank=True, default='')
+    item_statuschangedate = models.DateField(blank=True, null=True)
+    item_location = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_up4saledate = models.DateField(blank=True, null=True)
     ebay = models.CharField(max_length=200, blank=True, null=True, default='')
     poshmark = models.CharField(max_length=200, blank=True, null=True, default='')
     vinted = models.CharField(max_length=200, blank=True, null=True, default='')
@@ -73,15 +73,15 @@ class Inventoryitem(models.Model):
     letgo = models.CharField(max_length=200, blank=True, null=True, default='')
     offerup = models.CharField(max_length=200, blank=True, null=True, default='')
     offline = models.CharField(max_length=200, blank=True, null=True, default='')
-    solddate = models.DateField(blank=True, null=True)
-    finalsellingprice = models.FloatField(blank=True, null=True)
+    item_solddate = models.DateField(blank=True, null=True)
+    item_finalsellingprice = models.FloatField(blank=True, null=True)
     MKTplacefee = models.FloatField(blank=True, null=True)
     shippingcosts = models.FloatField(blank=True, null=True)
-
+    
     
     title = models.CharField(max_length=200, blank=True, null=True, default='', help_text="(updated on save)")
     description = models.TextField(max_length=255, blank=True, null=True, default='', help_text="(updated on save)")
-    itemprofit = models.FloatField(blank=True, null=True, help_text="(updated on save)")
+    item_profit = models.FloatField(blank=True, null=True, help_text="(updated on save)")
     customerpayout = models.FloatField(blank=True, null=True, help_text="(updated on save)")
     
     #def __init__(self, *args, **kwargs):
@@ -101,8 +101,8 @@ class Inventoryitem(models.Model):
         
         super(Product, self).save(*args, **kwargs) 
     
-  #  def __str__(self):              # __unicode__ on Python 2
-  #      return str(self.id)
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.id)
 
     class Meta:
         db_table = 'inventoryitem'

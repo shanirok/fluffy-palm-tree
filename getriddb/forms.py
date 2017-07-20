@@ -10,46 +10,46 @@ class InventoryitemForm(forms.ModelForm):
         model = Inventoryitem
         fields = ('__all__')
 
-    indate = forms.DateField(label='Date entered DB', initial=datetime.date.today, disabled=True)
+    item_indate = forms.DateField(label='Date entered DB', initial=datetime.date.today, disabled=True)
 
-    pickup = forms.ModelChoiceField(
+    item_pickup = forms.ModelChoiceField(
         label='Pickup #',
         queryset=Pickup.objects.all(),
         widget=autocomplete.ModelSelect2(url='pickup-autocomplete')
     )
 
-    category  = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='category-autocomplete'))
+    item_category  = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='category-autocomplete'))
 
-    segment = forms.ModelChoiceField(
+    item_segment = forms.ModelChoiceField(
         queryset=Segment.objects.all(),
         widget=autocomplete.ModelSelect2('segment-autocomplete', forward=['category']),
     )
     
-    itemtype = forms.ModelChoiceField(
+    item_type = forms.ModelChoiceField(
         queryset=Type.objects.all(),
         widget=autocomplete.ModelSelect2('type-autocomplete', forward=['category', 'segment']),
     )
    
-    brand = forms.ModelChoiceField(
+    item_brand = forms.ModelChoiceField(
         queryset=Brand.objects.all(),
         widget=autocomplete.ModelSelect2(url='brand-autocomplete')
     )
     
-    size = forms.ModelChoiceField(
+    item_size = forms.ModelChoiceField(
         queryset=Size.objects.all(),
         widget=autocomplete.ModelSelect2('size-autocomplete', forward=['category', 'segment'])
     )
 
-    color = forms.ModelChoiceField(
+    item_color = forms.ModelChoiceField(
         queryset= Color.objects.all(),
         widget=autocomplete.ModelSelect2('color-autocomplete')
     )
 
-    firstassessment = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='firstassessment-autocomplete'))
+    item_firstassessment = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='firstassessment-autocomplete'))
 
-    donationvalue = forms.DecimalField (min_value=1, decimal_places=2, required=False)
+    item_donationvalue = forms.DecimalField (min_value=1, decimal_places=2, required=False)
 
-    condition = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='condition-autocomplete'),required=False)
+    item_condition = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='condition-autocomplete'),required=False)
 
     #  itemtypeid=Type.objects.get(itemtype=itemtype).id
     #cut_choices=Cut.objects.filter(itemtype=itemtypeid)
@@ -65,32 +65,32 @@ class InventoryitemForm(forms.ModelForm):
    #     widget=forms.CheckboxSelectMultiple(),
    # )
 
-    cut = forms.ModelMultipleChoiceField(
+    item_cut = forms.ModelMultipleChoiceField(
         required=False,
         queryset=Cut.objects.all(),
         widget=autocomplete.ModelSelect2Multiple('cut-autocomplete', forward=['itemtype']),
     )
     
-    fabric = forms.ModelMultipleChoiceField(
+    item_fabric = forms.ModelMultipleChoiceField(
         queryset=Fabric.objects.all(),
         widget=autocomplete.ModelSelect2Multiple('fabric-autocomplete'),
         required=False,
     )
 
-    usecase = forms.ModelMultipleChoiceField(
+    item_usecase = forms.ModelMultipleChoiceField(
         queryset=Usecase.objects.all(),
         widget=autocomplete.ModelSelect2Multiple('usecase-autocomplete'),
         required=False,
     )
 
-    postprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
-    origprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
+    item_postprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
+    item_origprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
 
    # status =  forms.ChoiceField(choices=[('',None),(1,'Sold')]) 
-    status = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='status-autocomplete'))
+    item_status = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='status-autocomplete'))
     
-    statuschangedate = forms.DateField(label='Status Changed', initial=datetime.date.today)
-    location =  forms.CharField(required=False,)
+    item_statuschangedate = forms.DateField(label='Status Changed', initial=datetime.date.today)
+    item_location =  forms.CharField(required=False,)
 
     ebay = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='mktplace-autocomplete'))
     poshmark = autocomplete.Select2ListCreateChoiceField(choice_list=None, widget=autocomplete.ListSelect2(url='mktplace-autocomplete'))
