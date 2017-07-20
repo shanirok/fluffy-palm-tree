@@ -31,7 +31,7 @@ class Pickup(models.Model):
     id = models.AutoField(primary_key=True)
     pickupdate = models.DateField(blank=True, null=True)
     pickupsize = models.CharField(max_length=200, blank=True, default='')
-    pickupprice = models.IntegerField(blank=True, null=True)
+    pickupprice = models.FloatField(blank=True, null=True)
     customer = models.ForeignKey(Customer)
 
     def __str__(self):              # __unicode__ on Python 2
