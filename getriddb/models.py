@@ -45,31 +45,63 @@ class Inventoryitem(models.Model):
     indate = models.DateField(blank=True, null=True)
     pickup = models.ForeignKey('Pickup', related_name='Inventoryitems')
     category = models.CharField(max_length=200, blank=True, default='')
-    segment = models.CharField(max_length=200, blank=True, default='')
-    itemtype = models.CharField(max_length=200, blank=True, default='')
-    brand = models.CharField(max_length=200, blank=True, default='')
-    size = models.CharField(max_length=200,  blank=True, default='')
-    color = models.CharField(max_length=200, blank=True, default='')
-    firstassessment = models.CharField(max_length=200, blank=True, default='')
+    segment = models.CharField(max_length=200, blank=True, null=True, default='')
+    itemtype = models.CharField(max_length=200, blank=True, null=True, default='')
+    brand = models.CharField(max_length=200, blank=True, null=True, default='')
+    quality = models.CharField(max_length=200, blank=True, null=True, default='')
+    size = models.CharField(max_length=200,  blank=True, null=True, default='')
+    color = models.CharField(max_length=200, blank=True, null=True, default='')
+    firstassessment = models.CharField(max_length=200, blank=True, null=True, default='')
     donationvalue = models.FloatField(blank=True, null=True)
-    condition = models.CharField(max_length=200, blank=True, default='')
-    cut = models.CharField(max_length=200, blank=True, default='')
-    style = models.CharField(max_length=200, blank=True, default='')
-    fabric = models.CharField(max_length=200, blank=True, default='')
-    usecase = models.CharField(max_length=200, blank=True, default='')
+    condition = models.CharField(max_length=200, blank=True, null=True, default='')
+    defectdetails = models.CharField(max_length=200, blank=True, null=True, default='')
+    cut = models.CharField(max_length=200, blank=True, null=True, default='')
+    style = models.CharField(max_length=200, blank=True, null=True, default='')
+    fabric = models.CharField(max_length=200, blank=True, null=True, default='')
+    usecase = models.CharField(max_length=200, blank=True, null=True, default='')
     postprice = models.FloatField(blank=True, null=True)
     origprice = models.FloatField(blank=True, null=True)
     status = models.CharField(max_length=200, blank=True, default='')
     statuschangedate = models.DateField(blank=True, null=True)
-    location = models.CharField(max_length=200, blank=True, default='')
-    #Title = 
-    #Description =
-    #Up4saledate =
+    location = models.CharField(max_length=200, blank=True, null=True, default='')
+    up4saledate = models.DateField(blank=True, null=True)
+    ebay = models.CharField(max_length=200, blank=True, null=True, default='')
+    poshmark = models.CharField(max_length=200, blank=True, null=True, default='')
+    vinted = models.CharField(max_length=200, blank=True, null=True, default='')
+    tradesy = models.CharField(max_length=200, blank=True, null=True, default='')
+    craigslist = models.CharField(max_length=200, blank=True, null=True, default='')
+    letgo = models.CharField(max_length=200, blank=True, null=True, default='')
+    offerup = models.CharField(max_length=200, blank=True, null=True, default='')
+    offline = models.CharField(max_length=200, blank=True, null=True, default='')
+    solddate = models.DateField(blank=True, null=True)
+    finalsellingprice = models.FloatField(blank=True, null=True)
+    MKTplacefee = models.FloatField(blank=True, null=True)
+    shippingcosts = models.FloatField(blank=True, null=True)
 
-#    @property
-#    def title(self):
-#        return "%s %s %s" % ( self.brand, self.color, self.size)
+    
+    title = models.CharField(max_length=200, blank=True, null=True, default='', help_text="(updated on save)")
+    description = models.TextField(max_length=255, blank=True, null=True, default='', help_text="(updated on save)")
+    itemprofit = models.FloatField(blank=True, null=True, help_text="(updated on save)")
+    customerpayout = models.FloatField(blank=True, null=True, help_text="(updated on save)")
+    
+    def __init__(self, *args, **kwargs):
+        super(Inventoryitem, self).__init__(*args, **kwargs)
+        self.old_status = self.status
 
+    def save(self, *args, **kwargs):
+        if self.old_status != self.status:
+            self.statuschangedate = datetime.now()
+        super(Inventoryitem, self).save(*args, **kwargs)
+    
+    def save(self, *args, **kwargs):
+        self.title = self.brand + self.color + self.size
+        self.description = self.brand + self.color + self.size
+        self.itemprofit = float(self.finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
+        self.customerpayout = float(self.itemProfit/2)
+        
+        super(Product, self).save(*args, **kwargs)
+        
+    
     def __str__(self):              # __unicode__ on Python 2
         return str(self.id)
 

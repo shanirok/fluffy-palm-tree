@@ -119,6 +119,12 @@ urlpatterns = [
         views.StatusAutocompleteFromList.as_view(),
         name='status-autocomplete',
     ),
+
+#### MKTPLACE ####   
+    url(r'^mktplace-autocomplete/$',
+        views.MktplaceAutocompleteFromList.as_view(),
+        name='mktplace-autocomplete',
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

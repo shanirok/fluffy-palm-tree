@@ -21,11 +21,13 @@ class InventoryitemAdmin(admin.ModelAdmin):
         }
         js = ("getriddb/js/my_code.js",)
 
-    list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
-    list_filter = ['firstassessment']
-    search_fields = ['brand']
-    list_per_page = 1000
+    #list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
+    # list_filter = ['firstassessment']
+    # search_fields = ['id', 'brand']
+    list_per_page = 200
     form = InventoryitemForm
+    #fields = ('__all__')
+    readonly_fields = ('title','description', 'itemprofit', 'customerpayout')
     fieldsets = (
         (None, {
             'fields': ('indate', 'pickup', 'category', 'segment', 'itemtype', 'brand', 'size', 'color', 'firstassessment', 'donationvalue')
@@ -37,19 +39,20 @@ class InventoryitemAdmin(admin.ModelAdmin):
         ('Update Status', {
             'fields': ('status', 'statuschangedate', 'location'),
         }),
-   #     ('Up for sale', {
-   #         'fields': ('status', 'title'),
-   #         'readonly_fields': ('title'),
-   #     }),
+        ('Up for sale', {
+            'classes': ('upforsale',),
+            'fields': ('title', 'description', 'up4saledate', ('ebay', 'poshmark', 'vinted', 'tradesy', 'craigslist', 'letgo', 'offerup', 'offline'), 'solddate', 'finalsellingprice', 'MKTplacefee', 'shippingcosts', 'itemprofit', 'customerpayout'),
+        }),
     )
 
-    def clean(self):
+    
+#    def clean(self):
         # Don't allow draft entries to have a pub_date.
 #        if self.status == 'draft' and self.pub_date is not None:
 #            raise ValidationError(_('Draft entries may not have a publication date.'))
         # Set the pub_date for published items if it hasn't been set already.
-        if self.status == 'ready4sale' and self.statuschangedate is None:
-            self.statuschangedate = datetime.date.today()
+#        if self.status == 'ready4sale' and self.statuschangedate is None:
+#            self.statuschangedate = datetime.date.today()
     
 class SegmentAdmin(admin.ModelAdmin):
     list_display = ('category', 'segment')

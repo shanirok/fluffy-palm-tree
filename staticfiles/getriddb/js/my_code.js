@@ -1,9 +1,9 @@
 
 $(document).ready(function() {
     
-   $('fieldset.module.aligned.forsale').hide(); //Hiding the "If item is for sale" fieldset
-//    $('label[for=status], select#status').hide();
-    $('div.form-row.field-status').hide();
+    $('fieldset.module.aligned.forsale').hide(); //Hiding the "If item is for sale" fieldset
+    $('fieldset.module.aligned.upforsale').hide(); //Hiding the "Up for sale" fieldset
+    $('div.form-row.field-indate').hide();
     $('label[for=donationvalue], input#donationvalue').hide(); //Hiding the Donation value field
 
     $('#firstassessment').change(function() {
@@ -20,14 +20,30 @@ $(document).ready(function() {
 	if ($('#firstassessment').val() == "Sale") { //If firstassessment==Sale show  the "If item is for sale" fieldset
 
 	    $('fieldset.module.aligned.forsale').show();
-	    //	    $('label[for=status], select#status').show();
-	    $('div.form-row.field-status').show();
+	    $('fieldset.module.aligned.upforsale').show();
 	}
 	else 
 	{
 	    $('fieldset.module.aligned.forsale').hide();
-	    //   $('label[for=status], select#status').hide();
-	    $('div.form-row.field-status').hide();
+	    $('fieldset.module.aligned.upforsale').hide();
 	}
-    });				  
+    });
+
+    $('#status').change(function() {
+	
+    });
+    
 });
+
+/*
+`$('#selector').on('change', function() {
+       if ($(this).val() == "A"))  {
+             $('#inputA').prop('required', true);
+             $('#inputB').removeAttr('required');
+        }
+        if ($(this).val() == "B"))  {
+             $('#inputB').prop('required', true);
+             $('#inputA').removeAttr('required');
+        }
+  });
+*/

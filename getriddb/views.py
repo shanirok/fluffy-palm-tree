@@ -153,7 +153,7 @@ class FirstassessmentAutocompleteFromList(autocomplete.Select2ListView):
 
 class ConditionAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
-        return ['New in a box', 'New w/o tags', 'New w tags', 'Like new', 'Gently used', 'Used']
+        return ['New in a box', 'New w/o tags', 'New w tags', 'Like new', 'Gently used', 'Used', 'w defect']
 
 
 class CutModelAutocomplete(autocomplete.Select2QuerySetView):
@@ -206,4 +206,8 @@ class UsecaseModelAutocomplete(autocomplete.Select2QuerySetView):
 
 class StatusAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
-        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment']
+        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned']
+
+class MktplaceAutocompleteFromList(autocomplete.Select2ListView):
+    def get_list(self):
+        return ['Up', 'Down', 'Sold', 'Returned']
