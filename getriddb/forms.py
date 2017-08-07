@@ -46,6 +46,8 @@ class InventoryitemForm(forms.ModelForm):
     item_color = forms.CharField(required=False, disabled=True)
 
     colors = forms.ModelMultipleChoiceField(queryset=Color.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='color-autocomplete'), required=False)
+#    colors = forms.ModelMultipleChoiceField(queryset=Color.objects.all(), required=False)
+
     
     def get_firstassessment_choice_list():
         return ['Sale', 'Donation', 'Recycling']

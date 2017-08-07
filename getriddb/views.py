@@ -179,7 +179,7 @@ class ColorModelAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_value(self, result):
         """Return the value of a result."""
-        return result.color
+        return result.id
     
 class FirstassessmentAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
@@ -214,7 +214,7 @@ class CutModelAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_value(self, result):
         """Return the value of a result."""
-        return result.cut
+        return result.id
     
 class FabricModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -248,7 +248,7 @@ class UsecaseModelAutocomplete(autocomplete.Select2QuerySetView):
 
     def get_result_value(self, result):
         """Return the value of a result."""
-        return result.usecase
+        return result.id
     
 class StatusAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
