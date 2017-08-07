@@ -61,7 +61,7 @@ urlpatterns = [
         ),
         name='brand-autocomplete',
     ),
-    #### SIZE ####    
+#### SIZE ####    
     url(r'^size-autocomplete/$',
         views.SizeModelAutocomplete.as_view(
             model=Size,

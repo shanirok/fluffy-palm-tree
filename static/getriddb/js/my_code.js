@@ -1,10 +1,25 @@
 
 $(document).ready(function() {
     
-    $('fieldset.module.aligned.forsale').hide(); //Hiding the "If item is for sale" fieldset
-    $('fieldset.module.aligned.upforsale').hide(); //Hiding the "Up for sale" fieldset
+    if ($('#item_firstassessment').val() == "Sale") { //If firstassessment==Donation show donationvalue field
+	$('fieldset.module.aligned.forsale').show(); //Hiding the "If item is for sale" fieldset
+	$('fieldset.module.aligned.upforsale').show(); //Hiding the "Up for sale" fieldset
+	$('label[for=item_donationvalue], input#item_donationvalue').hide(); //Hiding the Donation value field
+    }
+    else {
+	$('fieldset.module.aligned.forsale').hide(); //Hiding the "If item is for sale" fieldset
+	$('fieldset.module.aligned.upforsale').hide(); //Hiding the "Up for sale" fieldset
+	if ($('#item_firstassessment').val() == "Donation") { //If firstassessment==Donation show donationvalue field
+	    $('label[for=item_donationvalue], input#item_donationvalue').show();
+	}
+	else 
+	{
+	    $('label[for=item_donationvalue], input#item_donationvalue').hide();
+	}
+    }
+    
     $('div.form-row.field-indate').hide();
-    $('label[for=item_donationvalue], input#item_donationvalue').hide(); //Hiding the Donation value field
+    
 
     $('#item_firstassessment').change(function() {
 	console.log("Firstassess");

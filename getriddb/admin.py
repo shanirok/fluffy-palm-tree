@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from getriddb.models import Customer, Pickup, Inventoryitem, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, Usecase
+from getriddb.models import Customer, Pickup, Inventoryitem, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, FabricPercent, Usecase
 from getriddb.forms import InventoryitemForm
 
 # Register your models here.
@@ -13,29 +13,39 @@ class CustomerAdmin(admin.ModelAdmin):
 class PickupAdmin(admin.ModelAdmin):
     list_display = ('id', 'pickupdate', 'pickupsize', 'pickupprice', 'customer')
 
-#    list_display = ('id', 'pickup', 'itemtype', 'brand', 'firstassessment')
- # list_filter = ['firstassessment']
+
+ 
     # search_fields = ['id', 'brand']
+
+class ColorInline(admin.StackedInline):
+    model = Color
+    
+class FabricsInline(admin.StackedInline):
+    model = FabricPercent
+    insert_after = 'item_fabric'
+    
 class InventoryitemAdmin(admin.ModelAdmin):
     class Media:
         css = {
-            "all": ("my_styles.css",)
+            "all": ("getriddb/css/my_styles.css",)
         }
         js = ("getriddb/js/my_code.js",)
 
-    list_display = ('id','item_pickup', 'item_type', 'item_brand', 'item_firstassessment')
+    list_display = ('id', 'item_indate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_color', 'item_firstassessment', 'item_status', 'item_statuschangedate')
         
-    list_per_page = 200
+    list_per_page = 100
+    search_fields = ['id']
+    list_filter = ['item_firstassessment', 'item_category']
     form = InventoryitemForm
         #fields = ('__all__')
     readonly_fields = ('title','description', 'item_profit', 'customerpayout')
     fieldsets = (
          (None, {
-             'fields': ('item_indate', 'item_pickup', 'item_category', 'item_segment', 'item_type', 'item_brand', 'item_size', 'item_color', 'item_firstassessment', 'item_donationvalue')
+             'fields': ('item_indate', 'item_pickup', 'item_category', 'item_segment', 'item_type', 'item_brand', 'item_size', 'item_color', 'colors', 'item_firstassessment', 'item_donationvalue')
          }),
          ('If item is for sale', {
              'classes': ('forsale',),
-             'fields': ('item_condition', 'item_cut', 'item_fabric', 'item_usecase', 'item_postprice', 'item_origprice'),
+             'fields': ('item_condition', 'item_cut', 'cuts', 'additional_info', 'item_fabric', 'item_usecase', 'usecases', 'item_postprice', 'item_origprice'),
          }),
          ('Update Status', {
              'fields': ('item_status', 'item_statuschangedate', 'item_location'),
@@ -45,6 +55,8 @@ class InventoryitemAdmin(admin.ModelAdmin):
              'fields': ('title', 'description', 'item_up4saledate', ('ebay', 'poshmark', 'vinted', 'tradesy', 'craigslist', 'letgo', 'offerup', 'offline'), 'item_solddate', 'item_finalsellingprice', 'MKTplacefee', 'shippingcosts', 'item_profit', 'customerpayout'),
          }),
     )
+    inlines = [FabricsInline]
+    change_form_template = 'admin/custom/change_form.html'
 
     
 #    def clean(self):
@@ -68,9 +80,8 @@ class SizeAdmin(admin.ModelAdmin):
     list_display = ('id', 'category', 'segment', 'size')
 
 class CutAdmin(admin.ModelAdmin):
-    list_display = ('id', 'category', 'segment', 'itemtype', 'cut')
-
-        
+    list_display = ('id','itemtype', 'cut')
+    
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Pickup, PickupAdmin)
 admin.site.register(Inventoryitem, InventoryitemAdmin)

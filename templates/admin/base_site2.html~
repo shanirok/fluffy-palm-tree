@@ -1,5 +1,0 @@
-{% extends "admin/base.html" %}
-{% block nav-global %}
-<a href="{% url 'new_item' %}" class="top-menu">TEST</a>
-{% endblock %}
-

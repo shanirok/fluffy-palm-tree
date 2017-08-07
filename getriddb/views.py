@@ -31,17 +31,20 @@ class CategoryModelAutocomplete(autocomplete.Select2QuerySetView):
         # Don't forget to filter out results depending on the visitor !
         if not self.request.user.is_authenticated():
             return category.objects.none()
-
-        qs = Category.objects.all()
-
+        
+        qs = Category.objects.only('category')
+        
         if self.q:
             qs = qs.filter(category__istartswith=self.q)
-            
+           
         return qs
     def create_object(self, text):
         """Create an object given a text."""
         return self.get_queryset().create(**{self.create_field: text})
-
+    
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.category
     
 class SegmentModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -49,12 +52,12 @@ class SegmentModelAutocomplete(autocomplete.Select2QuerySetView):
         if not self.request.user.is_authenticated():
             return segment.objects.none()
 
-        category = self.forwarded.get('category', None)
+        item_category = self.forwarded.get('item_category', None)
 
         qs = Segment.objects.all()
 
-        if category:
-            qs = qs.filter(category=category)
+        if item_category:
+            qs = qs.filter(category_id=item_category)
             
         if self.q:
             qs = qs.filter(segment__istartswith=self.q)
@@ -63,23 +66,30 @@ class SegmentModelAutocomplete(autocomplete.Select2QuerySetView):
 
     def create_object(self, text):
         """Create an object given a text."""
-        category = self.forwarded.get('category', None)
-        return self.get_queryset().create(category_id=category, segment=text)
+        item_category = self.forwarded.get('item_category', None)
+        return self.get_queryset().create(category_id=item_category, segment=text)
     
+    def get_result_value(self, result):
+        """Return the value of a result."""       
+        return result.segment
 
+ 
 class TypeModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
         if not self.request.user.is_authenticated():
             return type.objects.none()
 
-        category = self.forwarded.get('category', None)
-        segment = self.forwarded.get('segment', None)
+        item_category = self.forwarded.get('item_category', None)
+        item_segment = self.forwarded.get('item_segment', None)
         
         qs = Type.objects.all()
 
-        if category:
-            qs = qs.filter(category=category, segment=segment)
+        item_category1 = Category.objects.get(category=item_category).id
+        item_segment1 = Segment.objects.get(category=item_category, segment=item_segment).id
+        
+        if item_category:
+            qs = qs.filter(category_id=item_category1, segment_id=item_segment1)
             
         if self.q:
             qs = qs.filter(itemtype__istartswith=self.q)
@@ -88,10 +98,16 @@ class TypeModelAutocomplete(autocomplete.Select2QuerySetView):
     
     def create_object(self, text):
         """Create an object given a text."""
-        category = self.forwarded.get('category', None)
-        segment = self.forwarded.get('segment', None)
-        return self.get_queryset().create(category_id=category, segment_id=segment, itemtype=text)
+        item_category = self.forwarded.get('item_category', None)
+        item_segment = self.forwarded.get('item_segment', None)
+        item_category1 = Category.objects.get(category=item_category).id
+        item_segment1 = Segment.objects.get(category=item_category, segment=item_segment).id
+        return self.get_queryset().create(category_id=item_category1, segment_id=item_segment1, itemtype=text)
 
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.itemtype
+    
 class BrandModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -105,19 +121,30 @@ class BrandModelAutocomplete(autocomplete.Select2QuerySetView):
             
         return qs
 
+    def create_object(self, text):
+        """Create an object given a text."""
+        return self.get_queryset().create(**{self.create_field: text})
+
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.brand
+    
 class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
         if not self.request.user.is_authenticated():
             return size.objects.none()
 
-        category = self.forwarded.get('category', None)
-        segment = self.forwarded.get('segment', None)                      
+        item_category = self.forwarded.get('item_category', None)
+        item_segment = self.forwarded.get('item_segment', None)                      
         
         qs = Size.objects.all()
 
-        if category:
-            qs = qs.filter(category=category, segment=segment)
+        item_category1 = Category.objects.get(category=item_category).id
+        item_segment1 = Segment.objects.get(category=item_category, segment=item_segment).id
+        
+        if item_category:
+            qs = qs.filter(category_id=item_category1, segment_id=item_segment1)
             
         if self.q:
             qs = qs.filter(size__istartswith=self.q)
@@ -126,11 +153,15 @@ class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
     
     def create_object(self, text):
         """Create an object given a text."""
-        category = self.forwarded.get('category', None)
-        segment = self.forwarded.get('segment', None)
-        itemtype = self.forwarded.get('itemtype', None)
-        return self.get_queryset().create(category_id=category, segment_id=segment, itemtype_id=itemtype, size=text)
+        item_category = self.forwarded.get('item_category', None)
+        item_segment = self.forwarded.get('item_segment', None)
+        item_category1 = Category.objects.get(category=item_category).id
+        item_segment1 = Segment.objects.get(category=item_category, segment=item_segment).id
+        return self.get_queryset().create(category_id=item_category1, segment_id=item_segment1, size=text)
 
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.size
     
   
 class ColorModelAutocomplete(autocomplete.Select2QuerySetView):
@@ -146,6 +177,10 @@ class ColorModelAutocomplete(autocomplete.Select2QuerySetView):
             
         return qs
 
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.color
+    
 class FirstassessmentAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['Sale', 'Donation', 'Recycling']
@@ -176,6 +211,10 @@ class CutModelAutocomplete(autocomplete.Select2QuerySetView):
         """Create an object given a text."""
         itemtype = self.forwarded.get('itemtype', None)
         return self.get_queryset().create(itemtype_id=itemtype, cut=text)
+
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.cut
     
 class FabricModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -190,6 +229,10 @@ class FabricModelAutocomplete(autocomplete.Select2QuerySetView):
             
         return qs
 
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.fabric
+
 class UsecaseModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
         # Don't forget to filter out results depending on the visitor !
@@ -203,6 +246,10 @@ class UsecaseModelAutocomplete(autocomplete.Select2QuerySetView):
             
         return qs
 
+    def get_result_value(self, result):
+        """Return the value of a result."""
+        return result.usecase
+    
 class StatusAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned']

@@ -39,26 +39,32 @@ class Pickup(models.Model):
 
     class Meta:
         db_table = 'pickup'
-        
+    
 class Inventoryitem(models.Model):
     id = models.AutoField(primary_key=True)
     item_indate = models.DateField(blank=True, null=True)
     item_pickup = models.ForeignKey('Pickup', related_name='Inventoryitems')
-    item_category = models.CharField(max_length=200, blank=True, default='')
+    #item_category = models.CharField(max_length=200, blank=True, default='')
+    item_category = models.ForeignKey('Category', to_field='category')
     item_segment = models.CharField(max_length=200, blank=True, null=True, default='')
     item_type = models.CharField(max_length=200, blank=True, null=True, default='')
     item_brand = models.CharField(max_length=200, blank=True, null=True, default='')
     item_quality = models.CharField(max_length=200, blank=True, null=True, default='')
     item_size = models.CharField(max_length=200,  blank=True, null=True, default='')
-    item_color = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_color = models.CharField(max_length=200,  blank=True, null=True, default='')
+    colors = models.ManyToManyField('Color')
     item_firstassessment = models.CharField(max_length=200, blank=True, null=True, default='')
     item_donationvalue = models.FloatField(blank=True, null=True)
     item_condition = models.CharField(max_length=200, blank=True, null=True, default='')
     item_defectdetails = models.CharField(max_length=200, blank=True, null=True, default='')
     item_cut = models.CharField(max_length=200, blank=True, null=True, default='')
+    cuts = models.ManyToManyField('Cut')
+    additional_info = models.TextField(blank=True, null=True,max_length=100,)
     item_style = models.CharField(max_length=200, blank=True, null=True, default='')
     item_fabric = models.CharField(max_length=200, blank=True, null=True, default='')
+    fabrics = models.ManyToManyField('FabricPercent')
     item_usecase = models.CharField(max_length=200, blank=True, null=True, default='')
+    usecases = models.ManyToManyField('Usecase')
     item_postprice = models.FloatField(blank=True, null=True)
     item_origprice = models.FloatField(blank=True, null=True)
     item_status = models.CharField(max_length=200, blank=True, default='')
@@ -74,15 +80,15 @@ class Inventoryitem(models.Model):
     offerup = models.CharField(max_length=200, blank=True, null=True, default='')
     offline = models.CharField(max_length=200, blank=True, null=True, default='')
     item_solddate = models.DateField(blank=True, null=True)
-    item_finalsellingprice = models.FloatField(blank=True, null=True)
-    MKTplacefee = models.FloatField(blank=True, null=True)
-    shippingcosts = models.FloatField(blank=True, null=True)
+    item_finalsellingprice = models.FloatField(blank=True, null=True, default=0)
+    MKTplacefee = models.FloatField(blank=True, null=True, default=0)
+    shippingcosts = models.FloatField(blank=True, null=True, default=0)
     
     
     title = models.CharField(max_length=200, blank=True, null=True, default='', help_text="(updated on save)")
     description = models.TextField(max_length=255, blank=True, null=True, default='', help_text="(updated on save)")
-    item_profit = models.FloatField(blank=True, null=True, help_text="(updated on save)")
-    customerpayout = models.FloatField(blank=True, null=True, help_text="(updated on save)")
+    item_profit = models.FloatField(blank=True, null=True, default=0, help_text="(updated on save)")
+    customerpayout = models.FloatField(blank=True, null=True, default=0, help_text="(updated on save)")
     
     #def __init__(self, *args, **kwargs):
         #super(Inventoryitem, self).__init__(*args, **kwargs)
@@ -94,12 +100,14 @@ class Inventoryitem(models.Model):
      #   super(Inventoryitem, self).save(*args, **kwargs)
     
     def save(self, *args, **kwargs):
-        self.title = self.brand + self.color + self.size
-        self.description = self.brand + self.color + self.size
-        self.itemprofit = float(self.finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
-        self.customerpayout = float(self.itemProfit/2)
+        if self.item_brand is not None and self.item_color is not None and self.item_size is not None :
+            self.title = self.item_brand + self.item_color + self.item_size
+            self.description = self.item_brand + self.item_color + self.item_size
+        if self.item_finalsellingprice is not None and self.MKTplacefee is not None and self.shippingcosts is not None :
+            self.itemprofit = float(self.item_finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
+            self.customerpayout = float(self.item_profit/2)
         
-        super(Product, self).save(*args, **kwargs) 
+        super(Inventoryitem, self).save(*args, **kwargs) 
     
     def __str__(self):              # __unicode__ on Python 2
         return str(self.id)
@@ -107,20 +115,22 @@ class Inventoryitem(models.Model):
     class Meta:
         db_table = 'inventoryitem'
 
+
+    
 class Category(models.Model):
-    category = models.CharField(max_length=200, blank=False)
+    category = models.CharField(max_length=200, blank=False, unique=True)
     def __str__(self):              # __unicode__ on Python 2
         return str(self.category)
     
 class Segment(models.Model):
-    category =  models.ForeignKey('Category')
+    category =  models.ForeignKey('Category', to_field='category')
     segment = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
         return str(self.segment)
 
 class Type(models.Model):
     category =  models.ForeignKey('Category')
-    segment =  models.ForeignKey('Segment')
+    segment =  models.ForeignKey('Segment', to_field='id')
     itemtype = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
         return str(self.itemtype)
@@ -141,10 +151,8 @@ class Color(models.Model):
     color = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
         return str(self.color)
-
+   
 class Cut(models.Model):
-    category =  models.ForeignKey('Category')
-    segment =  models.ForeignKey('Segment')
     itemtype =  models.ForeignKey('Type')
     cut = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
@@ -155,6 +163,11 @@ class Fabric(models.Model):
     def __str__(self):              # __unicode__ on Python 2
         return str(self.fabric)
 
+class FabricPercent(models.Model):
+    inventoryitemkey = models.ForeignKey('inventoryitem')
+    percent = models.CharField(max_length=40)
+    fabric = models.ForeignKey('Fabric')
+    
 class Usecase(models.Model):
     usecase = models.CharField(max_length=200, blank=False)
     def __str__(self):              # __unicode__ on Python 2
