@@ -80,8 +80,8 @@ class InventoryitemForm(forms.ModelForm):
 
     usecases = forms.ModelMultipleChoiceField(queryset=Usecase.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='usecase-autocomplete'), required=False)
 
-    item_postprice = forms.DecimalField(min_value=1, decimal_places=2, required=False,) 
-    item_origprice = forms.DecimalField(min_value=1, decimal_places=2, required=False,) 
+    item_postprice = forms.DecimalField(decimal_places=2, required=False,) 
+    item_origprice = forms.DecimalField(decimal_places=2, required=False,) 
 
     def get_status_choice_list():
         return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost']

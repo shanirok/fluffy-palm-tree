@@ -111,8 +111,8 @@ class Inventoryitem(models.Model):
                 
             self.customerpayout = float(self.item_profit/2)
 
-        if self.old_item_status != self.item_status:
-            self.statuschangedate = datetime.date.today
+#        if self.old_item_status != self.item_status:
+#            self.statuschangedate = datetime.date.today
         
 
         super(Inventoryitem, self).save(*args, **kwargs) 
