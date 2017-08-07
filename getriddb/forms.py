@@ -43,7 +43,7 @@ class InventoryitemForm(forms.ModelForm):
     
     item_size = autocomplete.Select2ListCreateChoiceField(choice_list=Size.objects.all(), widget=autocomplete.ListSelect2(url='size-autocomplete', forward=['item_category', 'item_segment']),  required=False,)
 
-    item_color = forms.CharField(required=False,)
+    item_color = forms.CharField(required=False, disabled=True)
 
     colors = forms.ModelMultipleChoiceField(queryset=Color.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='color-autocomplete'), required=False)
     
@@ -65,14 +65,15 @@ class InventoryitemForm(forms.ModelForm):
    # )
 
 #    item_cut = autocomplete.Select2ListCreateChoiceField(choice_list=Cut.objects.all(), widget=autocomplete.ListSelect2(url='cut-autocomplete', forward=['itemtype']), required=False,)
-    item_cut = forms.CharField(required=False,)
+    item_cut = forms.CharField(required=False, disabled=True)
     cuts =  forms.ModelMultipleChoiceField(queryset=Cut.objects.all(),widget=autocomplete.ModelSelect2Multiple(url='cut-autocomplete', forward=['itemtype']), required=False)
-
+    item_style = forms.CharField(required=False, disabled=True)
     additional_info = forms.CharField(label='Additional information if necessary. Useful for unique items.', required=False, widget=forms.Textarea)
 
-    item_fabric = autocomplete.Select2ListCreateChoiceField(choice_list=Fabric.objects.all(), widget=autocomplete.ListSelect2(url='fabric-autocomplete'), required=False,)
-
-    item_usecase = forms.CharField(required=False,)
+  #  item_fabric = autocomplete.Select2ListCreateChoiceField(choice_list=Fabric.objects.all(), widget=autocomplete.ListSelect2(url='fabric-autocomplete'), required=False, disabled=True)
+    item_fabric = forms.CharField(required=False, disabled=True)
+    
+    item_usecase = forms.CharField(required=False, disabled=True)
 
     usecases = forms.ModelMultipleChoiceField(queryset=Usecase.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='usecase-autocomplete'), required=False)
 

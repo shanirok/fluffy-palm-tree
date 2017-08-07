@@ -15,14 +15,10 @@ class PickupAdmin(admin.ModelAdmin):
 
 
  
-    # search_fields = ['id', 'brand']
-
-class ColorInline(admin.StackedInline):
-    model = Color
-    
 class FabricsInline(admin.StackedInline):
     model = FabricPercent
     insert_after = 'item_fabric'
+    extra = 2
     
 class InventoryitemAdmin(admin.ModelAdmin):
     class Media:

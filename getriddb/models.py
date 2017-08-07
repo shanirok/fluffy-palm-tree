@@ -103,8 +103,15 @@ class Inventoryitem(models.Model):
         if self.item_brand is not None and self.item_color is not None and self.item_size is not None :
             self.title = self.item_brand + self.item_color + self.item_size
             self.description = self.item_brand + self.item_color + self.item_size
-        if self.item_finalsellingprice is not None and self.MKTplacefee is not None and self.shippingcosts is not None :
-            self.itemprofit = float(self.item_finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
+        if self.item_finalsellingprice is not None:
+            if self.MKTplacefee is not None:
+                if self.shippingcosts is not None :
+                    self.item_profit = float(self.item_finalsellingprice) - float(self.MKTplacefee) - float(self.shippingcosts)
+                else:
+                    self.item_profit = float(self.item_finalsellingprice) - float(self.MKTplacefee)
+            else:
+                self.item_profit = float(self.item_finalsellingprice)
+                
             self.customerpayout = float(self.item_profit/2)
         
         super(Inventoryitem, self).save(*args, **kwargs) 
