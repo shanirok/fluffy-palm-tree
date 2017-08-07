@@ -7,6 +7,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+import datetime
 from enum import Enum
 
 #class pusize(Enum):
@@ -48,6 +49,7 @@ class Inventoryitem(models.Model):
     item_category = models.ForeignKey('Category', to_field='category')
     item_segment = models.CharField(max_length=200, blank=True, null=True, default='')
     item_type = models.CharField(max_length=200, blank=True, null=True, default='')
+    item_quantity = models.IntegerField(blank=True, null=True)
     item_brand = models.CharField(max_length=200, blank=True, null=True, default='')
     item_quality = models.CharField(max_length=200, blank=True, null=True, default='')
     item_size = models.CharField(max_length=200,  blank=True, null=True, default='')
@@ -90,14 +92,9 @@ class Inventoryitem(models.Model):
     item_profit = models.FloatField(blank=True, null=True, default=0, help_text="(updated on save)")
     customerpayout = models.FloatField(blank=True, null=True, default=0, help_text="(updated on save)")
     
-    #def __init__(self, *args, **kwargs):
-        #super(Inventoryitem, self).__init__(*args, **kwargs)
-        #self.old_status = self.status
-
-    #def save(self, *args, **kwargs):
-     #   if self.old_status != self.status:
-     #       self.statuschangedate = datetime.now()
-     #   super(Inventoryitem, self).save(*args, **kwargs)
+    def __init__(self, *args, **kwargs):
+        super(Inventoryitem, self).__init__(*args, **kwargs)
+        self.old_item_status = self.item_status
     
     def save(self, *args, **kwargs):
         if self.item_brand is not None and self.item_color is not None and self.item_size is not None :
@@ -113,7 +110,11 @@ class Inventoryitem(models.Model):
                 self.item_profit = float(self.item_finalsellingprice)
                 
             self.customerpayout = float(self.item_profit/2)
+
+        if self.old_item_status != self.item_status:
+            self.statuschangedate = datetime.date.today
         
+
         super(Inventoryitem, self).save(*args, **kwargs) 
     
     def __str__(self):              # __unicode__ on Python 2

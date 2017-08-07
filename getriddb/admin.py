@@ -31,13 +31,13 @@ class InventoryitemAdmin(admin.ModelAdmin):
         
     list_per_page = 100
     search_fields = ['id']
-    list_filter = ['item_firstassessment', 'item_category']
+    list_filter = ['item_firstassessment', 'item_category',  'item_segment']
     form = InventoryitemForm
         #fields = ('__all__')
     readonly_fields = ('title','description', 'item_profit', 'customerpayout')
     fieldsets = (
          (None, {
-             'fields': ('item_indate', 'item_pickup', 'item_category', 'item_segment', 'item_type', 'item_brand', 'item_size', 'item_color', 'colors', 'item_firstassessment', 'item_donationvalue')
+             'fields': ('item_indate', 'item_pickup', 'item_category', 'item_segment', 'item_type', 'item_quantity', 'item_brand', 'item_size', 'item_color', 'colors', 'item_firstassessment', 'item_donationvalue')
          }),
          ('If item is for sale', {
              'classes': ('forsale',),

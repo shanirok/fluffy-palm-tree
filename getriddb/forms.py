@@ -37,7 +37,8 @@ class InventoryitemForm(forms.ModelForm):
     item_segment = autocomplete.Select2ListCreateChoiceField(choice_list=Segment.objects.all(), widget=autocomplete.ListSelect2(url='segment-autocomplete', forward=['item_category']),)
         
     item_type = autocomplete.Select2ListCreateChoiceField(choice_list=Type.objects.all(), widget=autocomplete.ListSelect2(url='type-autocomplete', forward=['item_category', 'item_segment']), required=False,)
-   
+    item_quantity = forms.IntegerField (initial=1, required=False)
+
     item_brand = autocomplete.Select2ListCreateChoiceField(choice_list=Brand.objects.all(), widget=autocomplete.ListSelect2(url='brand-autocomplete'), required=False,)
  
     
@@ -79,8 +80,8 @@ class InventoryitemForm(forms.ModelForm):
 
     usecases = forms.ModelMultipleChoiceField(queryset=Usecase.objects.all(), widget=autocomplete.ModelSelect2Multiple(url='usecase-autocomplete'), required=False)
 
-    item_postprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
-    item_origprice = forms.DecimalField (min_value=1, decimal_places=2, required=False,) 
+    item_postprice = forms.DecimalField(min_value=1, decimal_places=2, required=False,) 
+    item_origprice = forms.DecimalField(min_value=1, decimal_places=2, required=False,) 
 
     def get_status_choice_list():
         return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned']
@@ -134,7 +135,7 @@ class InventoryitemForm(forms.ModelForm):
       #  item_color=cleaned_data.get('item_color')
       #  item_color1=cleaned_data['item_color']
       #  color = Color.objects.get(color=item_color1).color
-        if not cleaned_data['item_color']:
+        if not cleaned_data['colors']:
             if  db_value=='Clothes' or db_value=='Shoes':
                 raise forms.ValidationError("'item_color' is required.")
 
