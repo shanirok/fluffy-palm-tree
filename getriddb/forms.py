@@ -84,7 +84,7 @@ class InventoryitemForm(forms.ModelForm):
     item_origprice = forms.DecimalField(min_value=1, decimal_places=2, required=False,) 
 
     def get_status_choice_list():
-        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned']
+        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost']
     
     item_status = autocomplete.Select2ListCreateChoiceField(choice_list=get_status_choice_list, widget=autocomplete.ListSelect2(url='status-autocomplete'))
     
