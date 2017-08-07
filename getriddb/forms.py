@@ -135,9 +135,10 @@ class InventoryitemForm(forms.ModelForm):
       #  item_color=cleaned_data.get('item_color')
       #  item_color1=cleaned_data['item_color']
       #  color = Color.objects.get(color=item_color1).color
-        if not cleaned_data['colors']:
-            if  db_value=='Clothes' or db_value=='Shoes':
-                raise forms.ValidationError("'item_color' is required.")
+
+      #if not cleaned_data['colors']:
+      #      if  db_value=='Clothes' or db_value=='Shoes':
+      #          raise forms.ValidationError("'item_color' is required.")
 
         return self.cleaned_data
 
