@@ -39,7 +39,6 @@ class InventoryitemForm(forms.ModelForm):
     item_type = autocomplete.Select2ListCreateChoiceField(choice_list=Type.objects.all(), widget=autocomplete.ListSelect2(url='type-autocomplete', forward=['item_category', 'item_segment']), required=False,)
     item_quantity = forms.IntegerField (initial=1, required=False)
 
- #   item_brand = autocomplete.Select2ListCreateChoiceField(choice_list=Brand.objects.all(), widget=autocomplete.ListSelect2(url='brand-autocomplete'), required=False,)
     item_brand = autocomplete.Select2ListCreateChoiceField(choice_list=Brand.objects.all(), widget=autocomplete.ListSelect2(url='brand-autocomplete'), required=False,)
     
     item_size = autocomplete.Select2ListCreateChoiceField(choice_list=Size.objects.all(), widget=autocomplete.ListSelect2(url='size-autocomplete', forward=['item_category', 'item_segment']),  required=False,)
