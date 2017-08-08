@@ -10,6 +10,10 @@ from dal import autocomplete
 from getriddb.models import Inventoryitem, Pickup, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, Usecase
 from getriddb.forms import InventoryitemForm
 
+from django import http
+from django.http import HttpResponseBadRequest, HttpResponseNotAllowed
+from django.contrib.auth import get_permission_codename
+from django.core.exceptions import ImproperlyConfigured
 # Create your views here.
 
 class PickupAutocomplete(autocomplete.Select2QuerySetView):
@@ -107,6 +111,26 @@ class TypeModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_result_value(self, result):
         """Return the value of a result."""
         return result.itemtype
+
+    def post(self, request):
+        """Create an object given a text after checking permissions."""
+        if not self.has_add_permission(request):
+            return http.HttpResponseForbidden()
+
+        if not self.create_field:
+            raise ImproperlyConfigured('Missing "create_field"')
+
+        text = request.POST.get('text', None)
+
+        if text is None:
+            return http.HttpResponseBadRequest()
+
+        result = self.create_object(text)
+
+        return http.JsonResponse({
+            'id': result.itemtype,
+            'text': result.itemtype,
+        })
     
 class BrandModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):
@@ -123,11 +147,31 @@ class BrandModelAutocomplete(autocomplete.Select2QuerySetView):
 
     def create_object(self, text):
         """Create an object given a text."""
-        return self.get_queryset().create(**{self.create_field: text})
+        return self.get_queryset().create(brand=text)
 
     def get_result_value(self, result):
         """Return the value of a result."""
         return result.brand
+
+    def post(self, request):
+        """Create an object given a text after checking permissions."""
+        if not self.has_add_permission(request):
+            return http.HttpResponseForbidden()
+
+        if not self.create_field:
+            raise ImproperlyConfigured('Missing "create_field"')
+
+        text = request.POST.get('text', None)
+
+        if text is None:
+            return http.HttpResponseBadRequest()
+
+        result = self.create_object(text)
+
+        return http.JsonResponse({
+            'id': result.brand,
+            'text': result.brand,
+        })
     
 class SizeModelAutocomplete(autocomplete.Select2QuerySetView):
     def get_queryset(self):

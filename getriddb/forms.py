@@ -15,7 +15,7 @@ class InventoryitemForm(forms.ModelForm):
         model = Inventoryitem
         fields = ('__all__')
 
-    item_indate = forms.DateField(label='Date entered DB', initial=datetime.date.today, disabled=True)
+    item_indate = forms.DateField(label='Date entered DB', initial=datetime.date.today)
 
     item_pickup = forms.ModelChoiceField(
         label='Pickup #',
@@ -39,8 +39,8 @@ class InventoryitemForm(forms.ModelForm):
     item_type = autocomplete.Select2ListCreateChoiceField(choice_list=Type.objects.all(), widget=autocomplete.ListSelect2(url='type-autocomplete', forward=['item_category', 'item_segment']), required=False,)
     item_quantity = forms.IntegerField (initial=1, required=False)
 
+ #   item_brand = autocomplete.Select2ListCreateChoiceField(choice_list=Brand.objects.all(), widget=autocomplete.ListSelect2(url='brand-autocomplete'), required=False,)
     item_brand = autocomplete.Select2ListCreateChoiceField(choice_list=Brand.objects.all(), widget=autocomplete.ListSelect2(url='brand-autocomplete'), required=False,)
- 
     
     item_size = autocomplete.Select2ListCreateChoiceField(choice_list=Size.objects.all(), widget=autocomplete.ListSelect2(url='size-autocomplete', forward=['item_category', 'item_segment']),  required=False,)
 
@@ -124,9 +124,9 @@ class InventoryitemForm(forms.ModelForm):
             if  db_value=='Clothes' or db_value=='Shoes' or db_value=='Accessories' or db_value=='Electronics' or db_value=='Toys' or db_value=='Home' or db_value=='SportsGear' or db_value=='Cosmetics':
                 raise forms.ValidationError("'item_type' is required.")
 
-        if not cleaned_data['item_brand']:
-            if  db_value=='Clothes' or db_value=='Shoes' or db_value=='Accessories' or db_value=='Electronics' or db_value=='Toys' or db_value=='Home' or db_value=='SportsGear' or db_value=='Cosmetics':
-                raise forms.ValidationError("'item_brand' is required.")
+     #   if not cleaned_data['item_brand']:
+     #       if  db_value=='Clothes' or db_value=='Shoes' or db_value=='Accessories' or db_value=='Electronics' or db_value=='Toys' or db_value=='Home' or db_value=='SportsGear' or db_value=='Cosmetics':
+    #            raise forms.ValidationError("'item_brand' is required.")
             
         if not cleaned_data['item_size']:
             if  db_value=='Clothes' or db_value=='Shoes':

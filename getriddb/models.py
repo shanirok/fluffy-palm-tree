@@ -118,8 +118,9 @@ class Inventoryitem(models.Model):
         super(Inventoryitem, self).save(*args, **kwargs) 
     
     def __str__(self):              # __unicode__ on Python 2
-        return str(self.id)
-
+        #return str(self.id)
+         return '%s %s' % (self.id, self.item_brand)
+     
     class Meta:
         db_table = 'inventoryitem'
 
