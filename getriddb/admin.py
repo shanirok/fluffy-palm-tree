@@ -27,7 +27,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
         }
         js = ("getriddb/js/my_code.js",)
 
-    list_display = ('id', 'item_status', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_color', 'item_firstassessment')
+    list_display = ('id', 'item_status', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
         
     list_per_page = 100
     search_fields = ['id']
