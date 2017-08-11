@@ -1,0 +1,7 @@
+li a {
+    color: brown;
+}
+
+body {
+    background: beige url("images/background.jpg") repeat-y right bottom;
+}

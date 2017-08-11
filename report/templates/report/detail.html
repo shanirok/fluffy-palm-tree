@@ -1,0 +1,16 @@
+<h1>{{ customer.customername }}</h1>
+
+{% if pickup_list %}
+<ul>
+  {% for pickup in pickup_list %}
+  <li>{{ pickup.id }} {{ pickup.pickupdate }} {{ pickup.pickupsize }}</li> 
+      {% for item in item_list %}
+   
+             <li>{{ item.id }} {{ item.item_category }} {{ item.item_segment }} {{ item.item_type }} {{ item.item_brand }} {{ item.item_firstassessment }}</li>
+      
+      {% endfor %}
+  {% endfor %}
+  </ul>
+{% else %}
+    <p>No items are available.</p>
+{% endif %}

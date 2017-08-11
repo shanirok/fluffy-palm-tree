@@ -1,0 +1,25 @@
+<h1>{{ item.item_segment }}</h1>
+
+<ul>
+{% for color in item.colors.all %}
+    <li>{{ color.color }} -- {{ color.id }} vote{{ color.id|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'report:detail' item.id %}">Vote again?</a>
+
+
+
+<h1>{{ item.item_segment }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'report:vote' item.id %}" method="post">
+{% csrf_token %}
+{% for color in item.colors.all %}
+    <input type="radio" name="color" id="color{{ forloop.counter }}" value="{{ color.id }}" />
+    <label for="color{{ forloop.counter }}">{{ color.color }}</label><br />
+{% endfor %}
+<input type="submit" value="Vote" />
+</form>
+

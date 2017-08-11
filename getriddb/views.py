@@ -301,3 +301,5 @@ class StatusAutocompleteFromList(autocomplete.Select2ListView):
 class MktplaceAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['Up', 'Down', 'Sold', 'Returned']
+
+

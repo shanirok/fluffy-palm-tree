@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'report/style.css' %}" />
+
+{% if customers_summary %}
+    <ul>
+    {% for customer in customers_summary %}
+        <li>{{ customer.id }} <a href="{% url 'report:detail' customer.id %}">{{customer.customername }}</a> </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No customers are available.</p>
+{% endif %}
