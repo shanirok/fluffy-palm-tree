@@ -31,7 +31,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
         
     list_per_page = 100
     search_fields = ['id']
-    list_filter = ['item_firstassessment', 'item_category',  'item_segment']
+    list_filter = ['item_firstassessment', 'item_category',  'item_segment', 'item_status']
     form = InventoryitemForm
         #fields = ('__all__')
     readonly_fields = ('title','description', 'item_profit', 'customerpayout')

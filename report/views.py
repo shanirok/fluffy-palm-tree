@@ -9,7 +9,8 @@ from getriddb.models import Color, Inventoryitem, Customer, Pickup
 # Create your views here.
 
 def customer_list(request):
-    return render(request, 'report/customer_list.html', {})
+    customers = Customer.objects.filter(last_pickup_date__isnull=False).order_by('last_pickup_date')
+    return render(request, 'report/customer_list.html', {'customers':customers})
 
 class IndexView(generic.ListView):
     template_name = 'report/index.html'

@@ -21,6 +21,7 @@ class Customer(models.Model):
     customeremail = models.CharField(max_length=200, blank=True, default='')
     customerphone = models.CharField(max_length=200, blank=True, default='')
     customeraddress = models.CharField(max_length=200, blank=True, default='')
+    last_pickup_date = models.DateField(blank=True, null=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return str(self.id)
