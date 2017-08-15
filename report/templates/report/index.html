@@ -1,13 +1,37 @@
-{% load staticfiles %}
+{% extends "report/base_generic.html" %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'report/style.css' %}" />
+{% block content %}
+<h1>GETRID Reporting tool Home</h1>
 
-{% if customers_summary %}
-    <ul>
-    {% for customer in customers_summary %}
-        <li>{{ customer.id }} <a href="{% url 'report:detail' customer.id %}">{{customer.customername }}</a> </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No customers are available.</p>
-{% endif %}
+  <p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla Developer Network.</p>
+
+<h2>Stats overview</h2>
+
+  <p>The database has the following record counts:</p>
+  <ul>
+    <li><strong>Customers served:</strong> {{ num_customers }}</li>
+    <li><strong>Pickups performed:</strong> {{ num_pickups }}</li>
+    <li><strong>Items processes:</strong> {{ num_items }}</li>
+    <li><strong>Items sold:</strong> {{ num_items_sold }}</li>
+    <li><strong>Items donated:</strong> {{ num_items_donated }}</li>
+  </ul>
+
+{% endblock %}
+
+
+
+
+
+<!-- {% load staticfiles %} -->
+
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'report/style.css' %}" /> -->
+
+<!-- {% if customers_summary %} -->
+<!--     <ul> -->
+<!--     {% for customer in customers_summary %} -->
+<!--         <li>{{ customer.id }} <a href="{% url 'report:detail' customer.id %}">{{customer.customername }}</a> </li> -->
+<!--     {% endfor %} -->
+<!--     </ul> -->
+<!-- {% else %} -->
+<!--     <p>No customers are available.</p> -->
+<!-- {% endif %} -->

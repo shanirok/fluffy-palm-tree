@@ -30,7 +30,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
     list_display = ('id', 'item_status', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
         
     list_per_page = 1000
-    search_fields = ['id']
+    search_fields = ['id','item_brand']
     list_filter = ['item_firstassessment', 'item_category',  'item_segment', 'item_status']
     form = InventoryitemForm
         #fields = ('__all__')
