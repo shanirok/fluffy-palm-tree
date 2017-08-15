@@ -1,13 +1,22 @@
-(% extends 'report/reportbase.html' %)
+{% extends "report/base_generic.html" %}
 
 {% block content %}
-<h1>Lookup customer pickup</h1>
-<form action="{% url 'report:pickup_list' %}" method="post">
-  <select name="selectcustomers" id="selectcustomers">
-    {% for customer in customers %}
-    <option value={{ customer.customername }}>{{ customer.customername }}</option>
-    {% endfor %}
-  </select>	   
-  <button type="submit" class="save btn btn-default">Next</button>
-</form>
+    <h1>Customer List</h1>
+
+    {% if customer_list %}
+    <ul>
+      <table summary="no_orderDate">
+      <tr><th>Customer ID</th><th>Customer name</th>
+      {% for customer in customer_list %}
+      <tr>
+	<td>{{ customer.id }}</td>
+	<td><a href="{% url 'report:customer-pickup' customer.id %}">{{ customer.customername }}</a></td>
+      </tr>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no customers in the library.</p>
+    {% endif %}       
 {% endblock %}
+
+

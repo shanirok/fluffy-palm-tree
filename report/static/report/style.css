@@ -5,8 +5,9 @@ li a {
 }
 
 body {
-    padding-left: 15px;
-    background: #FAF0EB  url("images/background.jpg") repeat-y right bottom;
+    padding-top: 230px;
+    
+    background: #FAF0EB  url("images/background.jpg") repeat-x top left;
 }
 
 .sidebar-nav {

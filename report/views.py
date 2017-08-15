@@ -33,19 +33,28 @@ def index(request):
 
 class CustomerListView(generic.ListView):
     model = Customer
-
+    paginate_by = 100
+    template_name = 'report/customer_list.html' 
     def get_queryset(self):
          return Customer.objects.filter(last_pickup_date__isnull=False).order_by('last_pickup_date')
 
+class CustomerDetailView(generic.DetailView):
+    model = Customer
+    template_name = 'report/customer_detail.html' 
 
+#class CustomerPickupList(generic.ListView):
+#    model = Pickup
+#    template_name = 'report/customer_pickup_list.html'
+#    def get_queryset(self):
+#         return Pickup.objects.filter(customer=pk).order_by('pickup.pickupdate')
 
+def CustomerPickupList(request, customer_id):
+    pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
+    return render(request, 'report/customer_pickup_list.html', {'customer_id':customer_id, 'pickup_list':pickup_list})
 
-
-
-
-# def customer_list(request):
-#     customers = Customer.objects.filter(last_pickup_date__isnull=False).order_by('last_pickup_date')
-#     return render(request, 'report/customer_list.html', {'customers':customers})
+def PickupItemList(request, customer_id, pickup_id):
+    item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('inventoryitem.id')
+    return render(request, 'report/pickup_item_list.html', {'item_list':item_list})
 
 # def getdetails(request):
 #     #country_name = request.POST['country_name']
