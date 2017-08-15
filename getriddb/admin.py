@@ -19,7 +19,35 @@ class FabricsInline(admin.StackedInline):
     model = FabricPercent
     insert_after = 'item_fabric'
     extra = 2
-    
+
+def change_status_to_sent2realreal(modeladmin, request, queryset):
+    queryset.update(item_status='Sent2realreal')
+change_status_to_sent2realreal.short_description = "Change selected items status to Sent2realreal"
+
+def change_status_to_shipped(modeladmin, request, queryset):
+    queryset.update(item_status='Shipped')
+change_status_to_shipped.short_description = "Change selected items status to Shipped"
+
+def change_status_to_donated(modeladmin, request, queryset):
+    queryset.update(item_status='Donated')
+change_status_to_donated.short_description = "Change selected items status to Donated"
+
+def poshmark_down(modeladmin, request, queryset):
+    queryset.update(poshmark='Down')
+poshmark_down.short_description = "Moves Poshmark to Down"
+
+def ebay_down(modeladmin, request, queryset):
+    queryset.update(ebay='Down')
+ebay_down.short_description = "Moves ebay to Down"
+
+def vinted_down(modeladmin, request, queryset):
+    queryset.update(vinted='Down')
+vinted_down.short_description = "Moves vinted to Down"
+
+def tradesy_down(modeladmin, request, queryset):
+    queryset.update(tradesy='Down')
+tradesy_down.short_description = "Moves tradesy to Down"
+
 class InventoryitemAdmin(admin.ModelAdmin):
     class Media:
         css = {
@@ -28,7 +56,8 @@ class InventoryitemAdmin(admin.ModelAdmin):
         js = ("getriddb/js/my_code.js",)
 
     list_display = ('id', 'item_status', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
-        
+   # list_editable = ['item_status',]
+    actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated,poshmark_down,ebay_down,vinted_down,tradesy_down]
     list_per_page = 1000
     search_fields = ['id','item_brand']
     list_filter = ['item_firstassessment', 'item_category',  'item_segment', 'item_status']

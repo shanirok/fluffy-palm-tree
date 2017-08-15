@@ -41,7 +41,23 @@ class Pickup(models.Model):
 
     class Meta:
         db_table = 'pickup'
-    
+
+STATUS_CHOICES = (
+    ('ready4donation', 'Ready4donation'),
+    ('ready4sale', 'Ready4sale'),
+    ('ready4recycling', 'Ready4recycling'),
+    ('donated', 'Donated'),
+    ('up4sale', 'Up4sale'),
+    ('ready2ship', 'Ready2ship'),
+    ('shipped', 'Shipped'),
+    ('recycled', 'Recycled'),
+    ('treatment', 'Treatment'),
+    ('returned', 'Returned'),
+    ('lost', 'Lost'),
+    ('sent2realreal', 'Sent2realreal'),
+    ('soldonrealreal', 'Soldonrealreal')
+)
+
 class Inventoryitem(models.Model):
     id = models.AutoField(primary_key=True)
     item_indate = models.DateField(blank=True, null=True)

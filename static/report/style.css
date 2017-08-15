@@ -1,8 +1,17 @@
+
+
 li a {
     color: brown;
 }
 
 body {
-    padding-left: 15px;
-    background: beige url("images/background.jpg") repeat-y right bottom;
+    padding-top: 230px;
+    
+    background: #FAF0EB  url("images/background.jpg") repeat-x top left;
+}
+
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
 }
