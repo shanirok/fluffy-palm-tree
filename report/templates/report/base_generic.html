@@ -27,8 +27,8 @@
       <ul class="sidebar-nav">
           <li><a href="{% url 'report:index' %}">Home</a></li> 
           <li><a href="{% url 'report:customers' %}">All customers</a></li>
-          <li><a href="">All pickups</a></li>
-	  <li><a href="">All items</a></li>
+          <li><a href="{% url 'report:pickups' %}">All pickups</a></li>
+	  <li><a href="{% url 'report:items' %}">All items</a></li>
       </ul>
      {% endblock %}
       </div>

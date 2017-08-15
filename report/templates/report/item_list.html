@@ -1,0 +1,28 @@
+{% extends "report/base_generic.html" %}
+
+{% block content %}
+    <h1>Item List</h1>
+
+    {% if item_list %}
+      <table summary="itemsperpickup">
+      <tr><th>Item ID</th><th>Item status</th><th>Item category</th><th>Item segment</th><th>Item type</th><th>Item brand</th><th>Item profit</th><th>Customer payout</th><th>Donation value</th><th>Donation location</th>
+      {% for item in item_list %}
+      <tr>
+        <td>{{ item.id }}</td>
+	<td>{{ item.item_status }}</td>
+	<td>{{ item.item_category }}</td>
+	<td>{{ item.item_segment }}</td>
+	<td>{{ item.item_type }}</td>
+	<td>{{ item.item_brand }}</td>
+	<td>{{ item.item_profit }}</td>
+	<td>{{ item.customerpayout }}</td>
+	<td>{{ item.item_donationvalue }}</td>
+	<td>{{ item.item_location }}</td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <p>There are no items for this pickup in the database.</p>
+    {% endif %}          
+{% endblock %}
+
+

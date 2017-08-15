@@ -1,7 +1,25 @@
-   <select name="selectpickups" id="selectpickups">
-              {% for pickup in pickups %}
-	      <option value="pickup">{{ pickup.id }} {{ pickup.pickupdate }}</option>
-	      {% endfor %}
-	      <option value="all">All</option>
-	    </select>
-	   </form>
+{% extends "report/base_generic.html" %}
+
+{% block content %}
+    <h1>Pickup List</h1>
+
+    {% if pickup_list %}
+    <ul>
+      <table summary="pickuptable">
+      <tr><th>Pickup ID</th><th>Pickup date</th><th>Pickup customer</th><th>Pickup size</th><th>Pickup price</th>
+      {% for pickup in pickup_list %}
+      <tr>
+	<td><a href="/report/customers/{{pickup.customer.id}}/{{pickup.id}}">{{ pickup.id }}</td>
+	<td>{{ pickup.pickupdate }}</td>
+	<td><a href="/report/customers/{{pickup.customer.id}}">{{ pickup.customer.customername }}</a></td>
+	<td>{{ pickup.pickupsize }}</td>
+	<td>{{ pickup.pickupprice }}</td>
+      </tr>
+      {% endfor %}
+    </ul>
+    {% else %}
+      <p>There are no pickups in the database.</p>
+    {% endif %}       
+{% endblock %}
+
+
