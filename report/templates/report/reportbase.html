@@ -1,0 +1,26 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'report/style.css' %}" />
+<html>
+    <head>
+      <title>GETRID customer list</title>
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    </head>
+    <body>
+        <div>
+            <h1><a href="">GETRID customer list</a></h1>
+        </div>
+	<div>
+	  {% block content %}
+	  {% endblock %}
+	  <h1>Lookup customer pickup</h1>
+	     <select name="selectcustomers" id="selectcustomers">
+               {% for customer in customers %}
+	     <option value={{ customer.customername }}>{{ customer.customername }}</option>
+	      {% endfor %}
+	    </select>
+	  <button type="submit" class="save btn btn-default">Save</button>
+	</div>
+    </body>
+</html>

@@ -1,29 +1,13 @@
-<html>
-    <head>
-      <title>GETRID customer list</title>
-      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    </head>
-    <body>
-        <div>
-            <h1><a href="">Django Girls Blog</a></h1>
-        </div>
+(% extends 'report/reportbase.html' %)
 
-	<div>
-	  {% if customers %}
-	  <ul>
-	    {% for customer in customers %}
-	     <div>
-               <p>{{ customer.id }} <a href="{% url 'report:detail' customer.id %}">{{customer.customername }}</a> </p>
-	        </div>
-	    {% endfor %}
-	     </ul>
-{% else %}
-    <p>No customers are available.</p>
-{% endif %}
-	</div>
-        <div>
-         {{ customers }}
-        </div>
-    </body>
-</html>
+{% block content %}
+<h1>Lookup customer pickup</h1>
+<form action="{% url 'report:pickup_list' %}" method="post">
+  <select name="selectcustomers" id="selectcustomers">
+    {% for customer in customers %}
+    <option value={{ customer.customername }}>{{ customer.customername }}</option>
+    {% endfor %}
+  </select>	   
+  <button type="submit" class="save btn btn-default">Next</button>
+</form>
+{% endblock %}

@@ -24,7 +24,7 @@ class Customer(models.Model):
     last_pickup_date = models.DateField(blank=True, null=True)
 
     def __str__(self):              # __unicode__ on Python 2
-        return str(self.id)
+        return str(self.customername)
 
     class Meta:
         db_table = 'customer'

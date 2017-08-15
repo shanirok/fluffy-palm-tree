@@ -1,9 +1,14 @@
 from django.conf.urls import url
 
 from . import views
+from getriddb.models import Inventoryitem, Customer, Pickup
+
 
 urlpatterns = [
     url(r'^$', views.customer_list, name='customer_list'),
+    url(r'^$', views.pickup_list, name='pickup_list'),
+    
+
     # ex: /polls/
     url(r'^index$', views.IndexView.as_view(), name='index'),
     # ex: /polls/5/
@@ -15,4 +20,3 @@ urlpatterns = [
     # ex: /polls/5/vote/
     url(r'^(?P<item_id>[0-9]+)/vote/$', views.vote, name='vote'),
 ]
-

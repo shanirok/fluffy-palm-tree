@@ -2,7 +2,11 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
+
+#from django.utils import simplejson
 #from django.template import loader
+
+from dal import autocomplete
 
 from getriddb.models import Color, Inventoryitem, Customer, Pickup
 
@@ -11,6 +15,35 @@ from getriddb.models import Color, Inventoryitem, Customer, Pickup
 def customer_list(request):
     customers = Customer.objects.filter(last_pickup_date__isnull=False).order_by('last_pickup_date')
     return render(request, 'report/customer_list.html', {'customers':customers})
+
+def getdetails(request):
+    #country_name = request.POST['country_name']
+    customer_name = request.GET['cus']
+    print ("ajax customer_name", customer_name)
+
+    result_set = []
+    all_pickups = []
+    answer = str(customer_name[1:-1])
+    selected_customer = Customer.objects.get(customername=answer)
+    print ("selected customer name", selected_customer)
+    all_pickups = Pickups.filter(customer=selected_customer)
+    for pickup in all_pickups:
+        print ("pickup date", pickup.pickupdate)
+        result_set.append({'date': pickup.pickupdate})
+    return HttpResponse(simplejson.dumps(result_set), mimetype='application/json',     content_type='application/json')
+
+
+
+#def pickup_list(request, customerid):
+#    pickups = Pickup.objects.filter(customer_is=customerid).order_by('pickupdate')
+#    return render(request, 'report/customer_list.html', {'pickups':pickups})
+
+def pickup_list(request):
+    selected_customer = request.POST['customer']
+    customerid=selected_customer.id
+    pickups = Pickup.objects.filter(customer=customerid).order_by('pickupdate')
+    return render(request, 'report/pickup_list.html', {'pickups':pickups})
+
 
 class IndexView(generic.ListView):
     template_name = 'report/index.html'

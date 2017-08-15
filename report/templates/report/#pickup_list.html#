@@ -1,0 +1,7 @@
+   <select name="selectpickups" id="selectpickups">
+              {% for pickup in pickups %}
+	      <option value="pickup">{{ pickup.id }} {{ pickup.pickupdate }}</option>
+	      {% endfor %}
+	      <option value="all">All</option>
+	    </select>
+	   </form>
