@@ -140,16 +140,16 @@ class InventoryitemForm(forms.ModelForm):
       #          raise forms.ValidationError("'item_color' is required.")
 
       
-        item_id = cleaned_data.get('id')
-        item_status = cleaned_data.get('item_status')
+        #item_id = cleaned_data.get('id')
+        #item_status = cleaned_data.get('item_status')
         #item_status_val = Inventoryitem.objects.get(id=item_id).item_status
-        poshmark = cleaned_data.get('poshmark')
-        ebay =cleaned_data.get('ebay')
-        vinted =cleaned_data.get('vinted')
-        tradesy =cleaned_data.get('tradesy')
-        craigslist =cleaned_data.get('craigslist')
-        offerup =cleaned_data.get('offerup')
-        letgo =cleaned_data.get('letgo')
+        #poshmark = cleaned_data.get('poshmark')
+        #ebay =cleaned_data.get('ebay')
+        #vinted =cleaned_data.get('vinted')
+        #tradesy =cleaned_data.get('tradesy')
+        #craigslist =cleaned_data.get('craigslist')
+        #offerup =cleaned_data.get('offerup')
+        #letgo =cleaned_data.get('letgo')
       
      #   if item_status_val=='Shipped':
      #       if (poshmark=='up' or ebay=='up' or vinted=='up' or tradesy=='up' or craigslist=='up' or offerup=='up' or letgo=='up') :
