@@ -142,7 +142,7 @@ class InventoryitemForm(forms.ModelForm):
       
         item_id = cleaned_data.get('id')
         item_status = cleaned_data.get('item_status')
-        item_status_val = Inventoryitem.objects.get(id=item_id).item_status
+        #item_status_val = Inventoryitem.objects.get(id=item_id).item_status
         poshmark = cleaned_data.get('poshmark')
         ebay =cleaned_data.get('ebay')
         vinted =cleaned_data.get('vinted')
