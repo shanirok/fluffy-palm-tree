@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views import generic
-
+from django.db.models import Q
 #from django.utils import simplejson
 #from django.template import loader
 
@@ -54,8 +54,21 @@ class ItemListView(generic.ListView):
          return Inventoryitem.objects.all().order_by('inventoryitem.id')
 
 def CustomerPickupList(request, customer_id):
+    customer = Customer.objects.get(id=customer_id)
     pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
-    return render(request, 'report/customer_pickup_list.html', {'customer_id':customer_id, 'pickup_list':pickup_list})
+    number_donated = 0 
+    value_donated = 0
+    number_sold = 0
+    number_listed = 0
+    total_payout = 0
+    for pickup in pickup_list:
+     number_donated += Inventoryitem.objects.filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count()
+     value_donated += Inventoryitem.objects.aggregate(Sum('item_donationvalue'))
+     number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Shipped').count()
+     number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count()
+     total_payout += Inventoryitem.objects.aggregate(Sum('customerpayout'))
+        
+    return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
 
 def PickupItemList(request, customer_id, pickup_id):
     item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('inventoryitem.id')

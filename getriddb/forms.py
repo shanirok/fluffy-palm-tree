@@ -83,7 +83,7 @@ class InventoryitemForm(forms.ModelForm):
     item_origprice = forms.DecimalField(decimal_places=2, required=False,) 
 
     def get_status_choice_list():
-        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal']
+        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal', 'Soldonbuffxchange', 'Sent2consignment', 'Sent2revolve']
     
     item_status = autocomplete.Select2ListCreateChoiceField(choice_list=get_status_choice_list, widget=autocomplete.ListSelect2(url='status-autocomplete'))
     
@@ -139,12 +139,29 @@ class InventoryitemForm(forms.ModelForm):
       #      if  db_value=='Clothes' or db_value=='Shoes':
       #          raise forms.ValidationError("'item_color' is required.")
 
+      
+        item_id = cleaned_data.get('id')
+        item_status = cleaned_data.get('item_status')
+        item_status_val = Inventoryitem.objects.get(id=item_id).item_status
+        poshmark = cleaned_data.get('poshmark')
+        ebay =cleaned_data.get('ebay')
+        vinted =cleaned_data.get('vinted')
+        tradesy =cleaned_data.get('tradesy')
+        craigslist =cleaned_data.get('craigslist')
+        offerup =cleaned_data.get('offerup')
+        letgo =cleaned_data.get('letgo')
+      
+     #   if item_status_val=='Shipped':
+     #       if (poshmark=='up' or ebay=='up' or vinted=='up' or tradesy=='up' or craigslist=='up' or offerup=='up' or letgo=='up') :
+     #           raise ValidationError("cant change status for shipping when 'Up' on one of the platforms")
+
+
         return self.cleaned_data
 
 
 
-
     def __init__(self, *args, **kwargs):
+     #   self.id = kwargs.pop('id')
         super(InventoryitemForm, self).__init__(auto_id=True, *args, **kwargs)
      #   qs = Segment.objects.filter(category_id=InventoryitemForm.item_category)
      #   self.fields['item_segment'].queryset = Segment.objects.filter(category_id=self.instance.item_category)

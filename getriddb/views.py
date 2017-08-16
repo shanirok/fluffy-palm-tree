@@ -296,7 +296,7 @@ class UsecaseModelAutocomplete(autocomplete.Select2QuerySetView):
     
 class StatusAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
-        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal']
+        return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal', 'Soldonbuffxchange', 'Sent2consignment', 'Sent2revolve']
 
 class MktplaceAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):

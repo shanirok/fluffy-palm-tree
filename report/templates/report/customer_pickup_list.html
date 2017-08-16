@@ -1,18 +1,49 @@
 {% extends "report/base_generic.html" %}
 
 {% block content %}
-    <h1>Customer Pickup List</h1>
+
+    <h1>Customer Summary</h1>
+    <p>{{ customer.customername }}</p>
+    <p> Updated to: </p>
+    <p id="date"></p>
+    <script>
+    document.getElementById('date').innerHTML= today.toDateString();
+    </script>
+    
+    <h2>Customer Pickup List</h2>
 
     {% if pickup_list %}
-    <ul>
-
-      {% for pickup in pickup_list %}
-      <li>
-         {{ pickup.id }} <a href="{% url 'report:pickup-item' customer_id pickup.id %}">{{ pickup.pickupdate }}</a> 
-      </li>
+      <table summary="pickuplistpercustomer">
+	<tr><th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th>
+	  {% for pickup in pickup_list %}
+	  <tr>
+            <td>{{ pickup.id }}</td>
+	    <td><a href="{% url 'report:pickup-item' customer_id pickup.id %}">{{ pickup.pickupdate }}</a></td>
+	  </tr>
+	  
       {% endfor %}
-
-    </ul>
+   
+      <h2>Processed Items status</h2>
+	<tr>	
+	  <tb>Number of items donated</tb>  
+	  <tb>{{ number_donated }}</tb>
+	</tr>
+	<tr>
+	  <tb>Value of items donated</tb>
+	  <tb>{{ value_donated }}</tb>
+	</tr>
+	<tr>
+	  <tb>Number of Sold Items</tb>
+	  <tb>{{ number_sold }}</tb>
+	</tr>
+	<tr>
+	  <tb>Number of Items listed for sale</tb>
+	  <tb>{{ value_sold }}</tb>
+	</tr>
+	<tr>
+	  <tb>Total Customer Payout from resale items</tb>
+	  <tb>{{ total_payout }}</tb>
+	</tr>
     {% else %}
       <p>There are no pickups for this customer in the database.</p>
     {% endif %}       
