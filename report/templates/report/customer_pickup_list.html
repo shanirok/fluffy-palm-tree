@@ -4,11 +4,21 @@
 <div>
     <h1>Customer Summary</h1>
     <p>{{ customer.customername }}</p>
-    <p> Date last updated: </p>
+   
     <p id="date"></p>
     <script>
     document.getElementById('date').innerHTML= today.toDateString();
     </script>
+     <script language="JavaScript" type="text/javascript">
+       var d=new Date();
+       var monthname=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
+       var TODAY = monthname[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
+     </script>
+     <div style="font-size: 10pt;">    
+        <p> Date last updated: <script language="JavaScript" type="text/javascript">
+         document.write(TODAY);
+       </script> </p>
+     </div> 
 </div>
 <br>
 <br>
