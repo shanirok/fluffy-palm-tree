@@ -1,52 +1,66 @@
 {% extends "report/base_generic.html" %}
 
 {% block content %}
-
+<div>
     <h1>Customer Summary</h1>
     <p>{{ customer.customername }}</p>
-    <p> Updated to: </p>
+    <p> Date last updated: </p>
     <p id="date"></p>
     <script>
     document.getElementById('date').innerHTML= today.toDateString();
     </script>
-    
-    <h2>Customer Pickup List</h2>
-
+</div>
+<br>
+<br>
+  <div>
+ <h2>Customer Pickup List</h2>
     {% if pickup_list %}
-      <table summary="pickuplistpercustomer">
-	<tr><th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th>
+      <table summary="pickuplistpercustomer" style="width:80%" border="1px solid #000">
+	<tr>
+	  <th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th>
+	</tr>
 	  {% for pickup in pickup_list %}
 	  <tr>
             <td>{{ pickup.id }}</td>
-	    <td><a href="{% url 'report:pickup-item' customer_id pickup.id %}">{{ pickup.pickupdate }}</a></td>
+	    <td><a href="{% url 'report:pickup-item' customer.id pickup.id %}">{{ pickup.pickupdate }}</a></td>
+	    <td>{{ pickup.pickupsize }}</td>
+	    <td>{{ pickup.pickupprice }}</td>
 	  </tr>
-	  
-      {% endfor %}
-   
-      <h2>Processed Items status</h2>
+      </table>
+	  {% endfor %}
+     {% else %}
+	<p>There are no pickups for this customer in the database.</p>
+     {% endif %}    
+  </div>
+  <br>
+  <br>
+  <br>
+  <div>
+     <h2>Processed Items status</h2>
+      <table summary="pickuplistpercustomer2" style="width:50%" border="1px solid #000" class="striped">
 	<tr>	
-	  <tb>Number of items donated</tb>  
-	  <tb>{{ number_donated }}</tb>
+	  <td>Number of items donated</td>
+	  <td>{{ number_donated }}</td>
 	</tr>
 	<tr>
-	  <tb>Value of items donated</tb>
-	  <tb>{{ value_donated }}</tb>
+	  <td>Value of items donated</td>
+	  <td>{{ value_donated }}</td>
 	</tr>
 	<tr>
-	  <tb>Number of Sold Items</tb>
-	  <tb>{{ number_sold }}</tb>
+	  <td>Number of Sold Items</td>
+	  <td>{{ number_sold }}</td>
 	</tr>
 	<tr>
-	  <tb>Number of Items listed for sale</tb>
-	  <tb>{{ value_sold }}</tb>
+	  <td>Number of Items listed for sale</td>
+	  <td>{{ value_sold }}</td>
 	</tr>
 	<tr>
-	  <tb>Total Customer Payout from resale items</tb>
-	  <tb>{{ total_payout }}</tb>
+	  <td>Total Customer Payout from resale items</td>
+	  <td>{{ total_payout }}</td>
 	</tr>
-    {% else %}
-      <p>There are no pickups for this customer in the database.</p>
-    {% endif %}       
+      </table>
+  </div>
+  
 {% endblock %}
 
 

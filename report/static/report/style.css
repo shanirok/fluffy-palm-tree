@@ -15,3 +15,7 @@ body {
     padding: 0;
     list-style: none;
 }
+
+table {
+    table-layout: fixed;
+}

@@ -57,18 +57,19 @@ def CustomerPickupList(request, customer_id):
     customer = Customer.objects.get(id=customer_id)
     pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
     number_donated = 0 
-    value_donated = 0
+#    value_donated = 0
     number_sold = 0
     number_listed = 0
-    total_payout = 0
+ #   total_payout = 0
     for pickup in pickup_list:
-     number_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count()
-     value_donated += Inventoryitem.objects.aggregate(sum('item_donationvalue'))
-     number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Shipped').count()
-     number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count()
-     total_payout += Inventoryitem.objects.aggregate(sum('customerpayout'))
-        
-    return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
+     number_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count();
+  #   value_donated = Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(sum('item_donationvalue'))
+     number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Shipped').count();
+     number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
+     #Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(payout=sum('customerpayout'))
+ #    total = total_payout['payout']
+  #  return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
+    return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'number_sold':number_sold, 'number_listed':number_listed})
 
 def PickupItemList(request, customer_id, pickup_id):
     item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('inventoryitem.id')
