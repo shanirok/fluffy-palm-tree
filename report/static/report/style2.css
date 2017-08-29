@@ -5,16 +5,11 @@ li a {
 }
 
 body {
-    padding-top: 40px;
-    
+    padding-top: 20px;
+    font-family: Trebuchet MS;
     background: #FAF0EB  url("images/background.jpg") repeat-y Right Top;
 }
 
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
-}
 
 table {
     table-layout: fixed;

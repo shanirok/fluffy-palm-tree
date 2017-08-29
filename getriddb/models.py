@@ -48,6 +48,7 @@ class Pickup(models.Model):
     pickupsize = models.CharField(max_length=200, blank=True, default='')
     pickupprice = models.FloatField(blank=True, null=True)
     customer = models.ForeignKey(Customer)
+    paid = models.BooleanField(default=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return str(self.id)

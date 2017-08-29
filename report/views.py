@@ -7,7 +7,7 @@ from django.db.models import Sum
 #from django.utils import simplejson
 #from django.template import loader
 
-from getriddb.models import Color, Inventoryitem, Customer, Pickup
+from getriddb.models import Color, Inventoryitem, Customer, Pickup, Payout
 
 # Create your views here.
 
@@ -57,6 +57,13 @@ class ItemListView(generic.ListView):
 def CustomerPickupList(request, customer_id):
     customer = Customer.objects.get(id=customer_id)
     pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
+    payout_list = Payout.objects.filter(customer=customer_id).order_by('customerpayout.paydate')
+    balance = 0
+    for pickup in pickup_list:
+        if pickup.paid=='False':
+            balance -= pickup.pickupprice;
+    for payout in payout_list:
+        balance -= payout.amount;
     number_donated = 0 
     value_donated = 0
     number_sold = 0
@@ -68,12 +75,13 @@ def CustomerPickupList(request, customer_id):
      number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Shipped').count();
      number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
      total_payout += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('customerpayout')).get('customerpayout__sum', 0.00)
- 
-     return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
+
+    balance += total_payout
+    return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'payout_list':payout_list, 'balance':balance, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
    # return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed})
 
 def PickupItemList(request, customer_id, pickup_id):
-    item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('inventoryitem.id')
+    item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('-inventoryitem.customerpayout')
     return render(request, 'report/pickup_item_list.html', {'item_list':item_list})
 
 # def getdetails(request):

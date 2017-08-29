@@ -1,12 +1,12 @@
 {% extends "report/base_generic_no_navbar.html" %}
 
 {% block content %}
-<div style="display: flex; justify-content: center;">
-    <img src="../../static/report/images/logo.png" alt="GETRID" align="center" height="90" width="280">
+<div style="display: flex; justify-content: left;">
+    <img src="../../static/report/images/logo.png" alt="GETRID" height="90" width="280">
 </div>
-<div>
-    <h1 style="text-align:center;">Customer Summary</h1>
-    <p style="font-size:120%;"><b>Customer name:</b><span style="color:brown; font-size:100%;"> {{ customer.customername }}</<span></p>
+<div style="text-align:center;">
+    <h1 style="text-align:center;">CUSTOMER SUMMARY</h1>
+    <p style="font-size:120%;"><span style="color:brown; font-size:100%;"> {{ customer.customername }}</<span></p>
    
     <p id="date"></p>
     <script>
@@ -18,10 +18,18 @@
        var TODAY = monthname[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
      </script>
    
-    <p style="font-size:120%;"><b>Date last updated: </b><span style="color:brown; font-size:100%;"><script language="JavaScript" type="text/javascript">
+    <p style="font-size:120%;"><span style="color:brown; font-size:100%;"><script language="JavaScript" type="text/javascript">
            document.write(TODAY);
        </script> </<span></p>
     
+</div>
+<br>
+<div>
+  {% if balance >= 0 %}
+    <h2>Customer Credit: <span style="color:green; font-size:100%;"> ${{balance|floatformat:2}}</<span></h2>
+  {% else %}
+    <h2>Customer Credit: <span style="color:brown; font-size:100%;"> ${{balance|floatformat:2}}</<span></h2>
+  {% endif %}
 </div>
 <br>
   <div>
@@ -31,40 +39,33 @@
 	<tr>
 	  <th>Details</th><th>Date</th><th>Amount</th>
 	</tr>
-	  {% for pickup in pickup_list %}
 	  <tr>
-            <td>pickup #{{ forloop.counter }}</td>
+            <td>Total customer payout from sold items to date</td>
+	    <td><script language="JavaScript" type="text/javascript">document.write(TODAY);</script></td>
+	    <td style="color:green">${{total_payout|floatformat:2}}</td>
+	  </tr>
+	  {% for payout in payout_list %}
+	  <tr>
+            <td>payout #{{ forloop.counter }} paid to customer</td>
+	    <td>{{ payout.paydate }}</td>
+	    <td style="color:#4578cc">${{ payout.amount|floatformat:2 }}</td>
+	  </tr>
+	  {% endfor %}
+	  {% for pickup in pickup_list %}
+	  {% if pickup.paid == False %}
+	  <tr style="color:red;">
+            <td>UNPAID Pickup (Pickup ID: {{ pickup.id }})</td>
 	    <td>{{ pickup.pickupdate }}</td>
-	    <td>${{ pickup.pickupprice }}</td>
+	    <td style="color:red">${{ pickup.pickupprice }}</td>
 	  </tr>
-	  {% endfor %}
+	  {% endif %}
+	  {% endfor %}	
 	  <tr>
-            <td>Total</td>
-	    <td>Today</td>
-	    <td>Sum</td>
+            <td>Current balance</td>
+	    <td><script language="JavaScript" type="text/javascript">document.write(TODAY);</script></td>
+	    <td><b>${{balance|floatformat:2}}</b></td>
 	  </tr>
       </table>
-     {% else %}
-	<p>There are no pickups for this customer in the database.</p>
-     {% endif %}    
-  </div>
-  <br>
- <div>
- <h2>Customer Pickup List</h2>
-    {% if pickup_list %}
-      <table summary="pickuplistpercustomer" style="width:80%" border="1px solid #000">
-	<tr>
-	  <th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th>
-	</tr>
-	  {% for pickup in pickup_list %}
-	  <tr>
-            <td>{{ pickup.id }}</td>
-	    <td><a href="{% url 'report:pickup-item' customer.id pickup.id %}">{{ pickup.pickupdate }}</a></td>
-	    <td>{{ pickup.pickupsize }}</td>
-	    <td>${{ pickup.pickupprice }}</td>
-	  </tr>
-      </table>
-	  {% endfor %}
      {% else %}
 	<p>There are no pickups for this customer in the database.</p>
      {% endif %}    
@@ -72,28 +73,56 @@
   <br>
   <div>
      <h2>Processed Items status</h2>
-      <table summary="pickuplistpercustomer2" style="width:50%" border="1px solid #000" class="striped">
+      <table summary="pickuplistpercustomer2" style="width:80%" border="1px solid #000" class="striped">
 	<tr>	
 	  <td>Number of donated items</td>
-	  <td>{{ number_donated }}</td>
+	  <td  align="center"><b>{{ number_donated }}</b></td>
+	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Value of donated items</td>
-	  <td>${{ value_donated }}</td>
+	  <td  align="center"><b>${{ value_donated }}</b></td>
+	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Number of sold items</td>
-	  <td>{{ number_sold }}</td>
+	  <td  align="center"><b>{{ number_sold }}</b></td>
+	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Number of items listed for sale</td>
-	  <td>{{ number_listed }}</td>
+	  <td  align="center"><b>{{ number_listed }}</b></td>
+	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Total customer payout from sold items</td>
-	  <td>${{ total_payout }}</td>
+	  <td  align="center"><b>${{ total_payout|floatformat:2 }}</b></td>
+	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
       </table>
+  </div>
+  <br>
+   <div>
+ <h2>Customer Pickup List</h2>
+    {% if pickup_list %}
+      <table summary="pickuplistpercustomer" style="width:80%" border="1px solid #000">
+	<tr>
+	  <th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th><th>Pickup paid</th><th>Pickup details</th>
+	</tr>
+	  {% for pickup in pickup_list %}
+	  <tr>
+            <td>{{ pickup.id }}</td>
+	    <td>{{ pickup.pickupdate }}</td>
+	    <td>{{ pickup.pickupsize }}</td>
+	    <td>${{ pickup.pickupprice }}</td>
+	    {% if pickup.paid == True %}<td style="color:green;">Yes</td>{% else %}<td style="color:red;">No</td>{% endif %}
+	     <td align="center"><a href="{% url 'report:pickup-item' customer.id pickup.id %}" class="btn btn-secondary btn-sm" style="color:brown">View list</a></td>
+	  </tr>
+	  {% endfor %}
+	  </table>
+     {% else %}
+	<p>There are no pickups for this customer in the database.</p>
+     {% endif %}    
   </div>
   <br>
 <br>
