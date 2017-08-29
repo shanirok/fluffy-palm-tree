@@ -29,6 +29,19 @@ class Customer(models.Model):
     class Meta:
         db_table = 'customer'
 
+class Payout(models.Model):
+    id = models.AutoField(primary_key=True)
+    customer = models.ForeignKey(Customer)
+    paydate = models.DateField(blank=True, null=True)
+    amount = models.FloatField(blank=True, null=True)
+    method = models.CharField(max_length=200, blank=True, default='')
+    
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.id)
+
+    class Meta:
+        db_table = 'customerpayout'
+
 class Pickup(models.Model):
     id = models.AutoField(primary_key=True)
     pickupdate = models.DateField(blank=True, null=True)

@@ -2,14 +2,19 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from getriddb.models import Customer, Pickup, Inventoryitem, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, FabricPercent, Usecase
+from getriddb.models import Customer, Payout, Pickup, Inventoryitem, Category, Segment, Type, Brand, Size, Color, Cut, Fabric, FabricPercent, Usecase
 from getriddb.forms import InventoryitemForm
 
 # Register your models here.
 
+class PayoutsInline(admin.StackedInline):
+    model = Payout
+    extra = 2
+    
 class CustomerAdmin(admin.ModelAdmin):
     list_display = ('id', 'customername', 'customeremail', 'customerphone', 'customeraddress')
-
+    inlines = [PayoutsInline]
+    
 class PickupAdmin(admin.ModelAdmin):
     list_display = ('id', 'pickupdate', 'pickupsize', 'pickupprice', 'customer')
 
@@ -55,8 +60,8 @@ class InventoryitemAdmin(admin.ModelAdmin):
         }
         js = ("getriddb/js/my_code.js",)
 
-    list_display = ('id', 'item_status', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
-   # list_editable = ['item_status',]
+    list_display = ('id', 'item_status', 'item_donationvalue', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
+    list_editable = ['item_donationvalue']
     actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated,poshmark_down,ebay_down,vinted_down,tradesy_down]
     list_per_page = 1000
     search_fields = ['id','item_brand']

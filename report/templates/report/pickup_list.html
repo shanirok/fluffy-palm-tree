@@ -6,7 +6,7 @@
     {% if pickup_list %}
     <ul>
       <table summary="pickuptable">
-      <tr><th>Pickup ID</th><th>Pickup date</th><th>Pickup customer</th><th>Pickup size</th><th>Pickup price</th>
+      <tr><th>Pickup ID  </th><th>Pickup date  </th><th>Pickup customer  </th><th>Pickup size  </th><th>Pickup price  </th>
       {% for pickup in pickup_list %}
       <tr>
 	<td><a href="/report/customers/{{pickup.customer.id}}/{{pickup.id}}">{{ pickup.id }}</td>

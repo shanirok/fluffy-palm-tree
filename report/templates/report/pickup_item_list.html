@@ -1,4 +1,4 @@
-{% extends "report/base_generic.html" %}
+{% extends "report/base_generic_no_navbar.html" %}
 
 {% block content %}
     <h1>Pickup Item List</h1>
@@ -23,6 +23,11 @@
     {% else %}
       <p>There are no items for this pickup in the database.</p>
     {% endif %}       
-{% endblock %}
+      </table>
+      <br>
+      <br>
+      <input type=button value="Previous Page" onClick="javascript:history.go(-1);">
+      {% endblock %}
+
 
 

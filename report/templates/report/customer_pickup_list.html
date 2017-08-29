@@ -1,9 +1,12 @@
-{% extends "report/base_generic.html" %}
+{% extends "report/base_generic_no_navbar.html" %}
 
 {% block content %}
+<div style="display: flex; justify-content: center;">
+    <img src="../../static/report/images/logo.png" alt="GETRID" align="center" height="90" width="280">
+</div>
 <div>
-    <h1>Customer Summary</h1>
-    <p>{{ customer.customername }}</p>
+    <h1 style="text-align:center;">Customer Summary</h1>
+    <p style="font-size:120%;"><b>Customer name:</b><span style="color:brown; font-size:100%;"> {{ customer.customername }}</<span></p>
    
     <p id="date"></p>
     <script>
@@ -14,15 +17,39 @@
        var monthname=new Array("January","February","March","April","May","June","July","August","September","October","November","December");
        var TODAY = monthname[d.getMonth()] + " " + d.getDate() + ", " + d.getFullYear();
      </script>
-     <div style="font-size: 10pt;">    
-        <p> Date last updated: <script language="JavaScript" type="text/javascript">
-         document.write(TODAY);
-       </script> </p>
-     </div> 
+   
+    <p style="font-size:120%;"><b>Date last updated: </b><span style="color:brown; font-size:100%;"><script language="JavaScript" type="text/javascript">
+           document.write(TODAY);
+       </script> </<span></p>
+    
 </div>
 <br>
-<br>
   <div>
+    <h2>Customer Balance</h2>
+    {% if pickup_list %}
+      <table summary="balancepercustomer" style="width:80%" border="1px solid #000">
+	<tr>
+	  <th>Details</th><th>Date</th><th>Amount</th>
+	</tr>
+	  {% for pickup in pickup_list %}
+	  <tr>
+            <td>pickup #{{ forloop.counter }}</td>
+	    <td>{{ pickup.pickupdate }}</td>
+	    <td>${{ pickup.pickupprice }}</td>
+	  </tr>
+	  {% endfor %}
+	  <tr>
+            <td>Total</td>
+	    <td>Today</td>
+	    <td>Sum</td>
+	  </tr>
+      </table>
+     {% else %}
+	<p>There are no pickups for this customer in the database.</p>
+     {% endif %}    
+  </div>
+  <br>
+ <div>
  <h2>Customer Pickup List</h2>
     {% if pickup_list %}
       <table summary="pickuplistpercustomer" style="width:80%" border="1px solid #000">
@@ -34,7 +61,7 @@
             <td>{{ pickup.id }}</td>
 	    <td><a href="{% url 'report:pickup-item' customer.id pickup.id %}">{{ pickup.pickupdate }}</a></td>
 	    <td>{{ pickup.pickupsize }}</td>
-	    <td>{{ pickup.pickupprice }}</td>
+	    <td>${{ pickup.pickupprice }}</td>
 	  </tr>
       </table>
 	  {% endfor %}
@@ -43,34 +70,34 @@
      {% endif %}    
   </div>
   <br>
-  <br>
-  <br>
   <div>
      <h2>Processed Items status</h2>
       <table summary="pickuplistpercustomer2" style="width:50%" border="1px solid #000" class="striped">
 	<tr>	
-	  <td>Number of items donated</td>
+	  <td>Number of donated items</td>
 	  <td>{{ number_donated }}</td>
 	</tr>
 	<tr>
-	  <td>Value of items donated</td>
-	  <td>{{ value_donated }}</td>
+	  <td>Value of donated items</td>
+	  <td>${{ value_donated }}</td>
 	</tr>
 	<tr>
-	  <td>Number of Sold Items</td>
+	  <td>Number of sold items</td>
 	  <td>{{ number_sold }}</td>
 	</tr>
 	<tr>
-	  <td>Number of Items listed for sale</td>
-	  <td>{{ value_sold }}</td>
+	  <td>Number of items listed for sale</td>
+	  <td>{{ number_listed }}</td>
 	</tr>
 	<tr>
-	  <td>Total Customer Payout from resale items</td>
-	  <td>{{ total_payout }}</td>
+	  <td>Total customer payout from sold items</td>
+	  <td>${{ total_payout }}</td>
 	</tr>
       </table>
   </div>
-  
+  <br>
+<br>
+</div>
 {% endblock %}
 
 
