@@ -110,7 +110,7 @@
 	    <td>{{ pickup.pickupdate }}</td>
 	    <td>{{ pickup.pickupsize }}</td>
 	    <td>${{ pickup.pickupprice }}</td>
-	    {% if pickup.paid == True %}<td style="color:green;">Yes</td>{% else %}<td style="color:#e06243;">No</td>{% endif %}
+	    {% if pickup.paid == True %}<td style="color:green;">Yes</td>{% else %}<td style="color:#e06243;">Deducted from balance</td>{% endif %}
 	     <td align="center"><a href="{% url 'report:pickup-item' customer.id pickup.id %}" class="btn btn-secondary btn-sm" style="color:brown">View list</a></td>
 	  </tr>
 	  {% endfor %}
