@@ -2,7 +2,7 @@
 
 {% block content %}
 <div style="display: flex; justify-content: left;">
-    <img src="../../static/report/images/logo.png" alt="GETRID" height="90" width="280">
+    <img src="../../static/report/images/logo.png" alt="GETRID" height="60" width="200">
 </div>
 <div style="text-align:center;">
     <h1 style="text-align:center;">CUSTOMER SUMMARY</h1>
@@ -35,7 +35,7 @@
   <div>
     <h2>Customer Balance</h2>
     {% if pickup_list %}
-      <table summary="balancepercustomer" style="width:80%" border="1px solid #000">
+      <table summary="balancepercustomer" style="width:90%" border="1px solid #000">
 	<tr>
 	  <th>Details</th><th>Date</th><th>Amount</th>
 	</tr>
@@ -73,31 +73,26 @@
   <br>
   <div>
      <h2>Processed Items status</h2>
-      <table summary="pickuplistpercustomer2" style="width:80%" border="1px solid #000" class="striped">
+      <table summary="pickuplistpercustomer2" style="width:90%" border="1px solid #000" class="striped">
 	<tr>	
 	  <td>Number of donated items</td>
 	  <td  align="center"><b>{{ number_donated }}</b></td>
-	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
+	  <td align="center"><a href="{% url 'report:customer-donated-item' customer.id %}" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Value of donated items</td>
 	  <td  align="center"><b>${{ value_donated }}</b></td>
-	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
+	  <td align="center"><a href="{% url 'report:customer-donated-item' customer.id %}" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Number of sold items</td>
 	  <td  align="center"><b>{{ number_sold }}</b></td>
-	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
+	  <td align="center"><a href="{% url 'report:customer-sold-item' customer.id %}" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
 	<tr>
 	  <td>Number of items listed for sale</td>
 	  <td  align="center"><b>{{ number_listed }}</b></td>
-	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
-	</tr>
-	<tr>
-	  <td>Total customer payout from sold items</td>
-	  <td  align="center"><b>${{ total_payout|floatformat:2 }}</b></td>
-	  <td align="center"><a href="" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
+	  <td align="center"><a href="{% url 'report:customer-sold-item' customer.id %}" class="btn btn-secondary btn-sm" style="color:brown">View detailed list</a></td>
 	</tr>
       </table>
   </div>
@@ -105,7 +100,7 @@
    <div>
  <h2>Customer Pickup List</h2>
     {% if pickup_list %}
-      <table summary="pickuplistpercustomer" style="width:80%" border="1px solid #000">
+      <table summary="pickuplistpercustomer" style="width:90%" border="1px solid #000">
 	<tr>
 	  <th>Pickup ID</th><th>Pickup date</th><th>Pickup size</th><th>Pickup price</th><th>Pickup paid</th><th>Pickup details</th>
 	</tr>

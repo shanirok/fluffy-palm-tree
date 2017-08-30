@@ -84,6 +84,16 @@ def PickupItemList(request, customer_id, pickup_id):
     item_list = Inventoryitem.objects.filter(item_pickup=pickup_id).order_by('-inventoryitem.customerpayout')
     return render(request, 'report/pickup_item_list.html', {'item_list':item_list})
 
+def CustomerDonatedItemList(request, customer_id):
+    pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
+    item_list = Inventoryitem.objects.filter(item_pickup_id__in=pickup_list).filter(item_firstassessment="Donation").order_by('-inventoryitem.item_donationvalue')
+    return render(request, 'report/customer_donated_item_list.html', {'item_list':item_list})
+
+def CustomerSoldItemList(request, customer_id):
+    pickup_list = Pickup.objects.filter(customer=customer_id).order_by('pickup.pickupdate')
+    item_list = Inventoryitem.objects.filter(item_pickup_id__in=pickup_list).filter(item_firstassessment="Sale").order_by('-inventoryitem.customerpayout')
+    return render(request, 'report/customer_sold_item_list.html', {'item_list':item_list})
+
 # def getdetails(request):
 #     #country_name = request.POST['country_name']
 #     customer_name = request.GET['cus']

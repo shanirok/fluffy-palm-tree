@@ -10,6 +10,8 @@ urlpatterns = [
     url(r'^pickups/$', views.PickupListView.as_view(), name='pickups'),
     url(r'^items/$', views.ItemListView.as_view(), name='items'),
     url(r'^customers/(?P<customer_id>\d+)$', views.CustomerPickupList, name='customer-pickup'),
+    url(r'^customers/(?P<customer_id>\d+)/donated$', views.CustomerDonatedItemList, name='customer-donated-item'),
+    url(r'^customers/(?P<customer_id>\d+)/sold$', views.CustomerSoldItemList, name='customer-sold-item'),
     url(r'^customers/(?P<customer_id>\d+)/(?P<pickup_id>\d+)$', views.PickupItemList, name='pickup-item'),
 ]
 
