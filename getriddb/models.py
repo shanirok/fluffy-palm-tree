@@ -116,6 +116,7 @@ class Inventoryitem(models.Model):
     item_finalsellingprice = models.FloatField(blank=True, null=True, default=0)
     MKTplacefee = models.FloatField(blank=True, null=True, default=0)
     shippingcosts = models.FloatField(blank=True, null=True, default=0)
+    customerfacingstatus = models.CharField(max_length=200, blank=True, default='')
     
     
     title = models.CharField(max_length=200, blank=True, null=True, default='', help_text="(updated on save)")
