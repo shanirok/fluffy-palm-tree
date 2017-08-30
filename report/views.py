@@ -70,12 +70,14 @@ def CustomerPickupList(request, customer_id):
     number_listed = 0
     total_payout = 0
     for pickup in pickup_list:
-     number_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count();
-     value_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('item_donationvalue')).get('item_donationvalue__sum', 0.00)
-     number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(customerfacingstatus__contains='Sold').count();
-     number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
-     total_payout += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('customerpayout')).get('customerpayout__sum', 0.00)
-     
+        pickup_exists = Inventoryitem.objects.filter(item_pickup=pickup.id).count()
+        if pickup_exists >=1:
+            number_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count();
+            value_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('item_donationvalue')).get('item_donationvalue__sum', 0.00)
+            number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(customerfacingstatus__contains='Sold').count();
+            number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
+            total_payout += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('customerpayout')).get('customerpayout__sum', 0.00)
+        
     balance += total_payout
     return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'payout_list':payout_list, 'balance':balance, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
    # return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed})

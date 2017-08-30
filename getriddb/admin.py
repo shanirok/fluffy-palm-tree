@@ -65,7 +65,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
     actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated,poshmark_down,ebay_down,vinted_down,tradesy_down]
     list_per_page = 1000
     search_fields = ['id','item_brand']
-    list_filter = ['item_firstassessment', 'item_category',  'item_segment', 'item_status']
+    list_filter = ['customerfacingstatus', 'item_firstassessment', 'item_category',  'item_segment', 'item_status']
     form = InventoryitemForm
         #fields = ('__all__')
     readonly_fields = ('title','description', 'item_profit', 'customerpayout')
