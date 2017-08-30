@@ -53,10 +53,10 @@
 	  {% endfor %}
 	  {% for pickup in pickup_list %}
 	  {% if pickup.paid == False %}
-	  <tr style="color:red;">
-            <td>UNPAID Pickup (Pickup ID: {{ pickup.id }})</td>
+	  <tr>
+            <td>Pickup fee deduction (Pickup ID: {{ pickup.id }})</td>
 	    <td>{{ pickup.pickupdate }}</td>
-	    <td style="color:red">${{ pickup.pickupprice }}</td>
+	    <td style="color:#e06243">${{ pickup.pickupprice }}</td>
 	  </tr>
 	  {% endif %}
 	  {% endfor %}	
@@ -110,7 +110,7 @@
 	    <td>{{ pickup.pickupdate }}</td>
 	    <td>{{ pickup.pickupsize }}</td>
 	    <td>${{ pickup.pickupprice }}</td>
-	    {% if pickup.paid == True %}<td style="color:green;">Yes</td>{% else %}<td style="color:red;">No</td>{% endif %}
+	    {% if pickup.paid == True %}<td style="color:green;">Yes</td>{% else %}<td style="color:#e06243;">No</td>{% endif %}
 	     <td align="center"><a href="{% url 'report:pickup-item' customer.id pickup.id %}" class="btn btn-secondary btn-sm" style="color:brown">View list</a></td>
 	  </tr>
 	  {% endfor %}

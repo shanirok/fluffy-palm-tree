@@ -60,7 +60,7 @@ def CustomerPickupList(request, customer_id):
     payout_list = Payout.objects.filter(customer=customer_id).order_by('customerpayout.paydate')
     balance = 0
     for pickup in pickup_list:
-        if pickup.paid=='False':
+        if pickup.paid==False:
             balance -= pickup.pickupprice;
     for payout in payout_list:
         balance -= payout.amount;
@@ -75,7 +75,7 @@ def CustomerPickupList(request, customer_id):
      number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Shipped').count();
      number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
      total_payout += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('customerpayout')).get('customerpayout__sum', 0.00)
-
+     
     balance += total_payout
     return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'payout_list':payout_list, 'balance':balance, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed, 'total_payout':total_payout})
    # return render(request, 'report/customer_pickup_list.html', {'customer':customer, 'pickup_list':pickup_list, 'number_donated':number_donated, 'value_donated':value_donated, 'number_sold':number_sold, 'number_listed':number_listed})
