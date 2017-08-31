@@ -37,6 +37,10 @@ def change_status_to_donated(modeladmin, request, queryset):
     queryset.update(item_status='Donated')
 change_status_to_donated.short_description = "Change selected items status to Donated"
 
+def change_status_to_sent2consignmnet(modeladmin, request, queryset):
+    queryset.update(item_status='Sent2consignmnet')
+change_status_to_donated.short_description = "Change selected items status to Sent2consignmnet"
+
 def poshmark_down(modeladmin, request, queryset):
     queryset.update(poshmark='Down')
 poshmark_down.short_description = "Moves Poshmark to Down"
@@ -62,7 +66,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
 
     list_display = ('id', 'item_status', 'item_donationvalue', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
     list_editable = ['item_donationvalue']
-    actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated,poshmark_down,ebay_down,vinted_down,tradesy_down]
+    actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated, change_status_to_sent2consignmnet, poshmark_down,ebay_down,vinted_down,tradesy_down]
     list_per_page = 1000
     search_fields = ['id','item_brand']
     list_filter = ['customerfacingstatus', 'item_firstassessment', 'item_category',  'item_segment', 'item_status']
