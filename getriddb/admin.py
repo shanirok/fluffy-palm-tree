@@ -39,7 +39,7 @@ change_status_to_donated.short_description = "Change selected items status to Do
 
 def change_status_to_sent2consignmnet(modeladmin, request, queryset):
     queryset.update(item_status='Sent2consignmnet')
-change_status_to_donated.short_description = "Change selected items status to Sent2consignmnet"
+change_status_to_sent2consignmnet.short_description = "Change selected items status to Sent2consignmnet"
 
 def poshmark_down(modeladmin, request, queryset):
     queryset.update(poshmark='Down')
