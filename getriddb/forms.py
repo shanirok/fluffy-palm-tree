@@ -86,6 +86,11 @@ class InventoryitemForm(forms.ModelForm):
         return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal', 'Soldonbuffxchange', 'Sent2consignment', 'Sent2revolve']
     
     item_status = autocomplete.Select2ListCreateChoiceField(choice_list=get_status_choice_list, widget=autocomplete.ListSelect2(url='status-autocomplete'))
+
+    def get_customer_status_choice_list():
+        return ['Ready for donation', 'Ready for sale', 'Ready for recycling', 'Donated', 'Up for sale', 'Ready to ship', 'Shipped', 'Recycled', 'Treatment']
+    
+    customerfacingstatus = autocomplete.Select2ListCreateChoiceField(label='Customer Facing Status', choice_list=get_customer_status_choice_list, widget=autocomplete.ListSelect2(url='customerstatus-autocomplete'))
     
     item_statuschangedate = forms.DateField(label='Status Changed', initial=datetime.date.today)
     item_location =  forms.CharField(required=False,)

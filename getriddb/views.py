@@ -298,6 +298,10 @@ class StatusAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['Ready4donation', 'Ready4sale', 'Ready4recycling', 'Donated', 'Up4sale', 'Ready2ship', 'Shipped', 'Recycled', 'Treatment', 'Returned', 'Lost', 'Sent2realreal', 'Soldonrealreal', 'Soldonbuffxchange', 'Sent2consignment', 'Sent2revolve']
 
+class CustomerStatusAutocompleteFromList(autocomplete.Select2ListView):
+    def get_list(self):
+        return ['Ready for donation', 'Ready for sale', 'Ready for recycling', 'Donated', 'Up for sale', 'Ready to ship', 'Shipped', 'Recycled', 'Treatment']
+
 class MktplaceAutocompleteFromList(autocomplete.Select2ListView):
     def get_list(self):
         return ['Up', 'Down', 'Sold', 'Returned']

@@ -65,7 +65,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
         js = ("getriddb/js/my_code.js",)
 
     list_display = ('id', 'item_status', 'item_donationvalue', 'item_statuschangedate', 'item_category', 'item_segment', 'item_pickup', 'item_type', 'item_brand', 'item_size', 'item_firstassessment')
-    list_editable = ['item_donationvalue']
+    #list_editable = ['item_donationvalue']
     actions = [change_status_to_sent2realreal, change_status_to_shipped, change_status_to_donated, change_status_to_sent2consignmnet, poshmark_down,ebay_down,vinted_down,tradesy_down]
     list_per_page = 1000
     search_fields = ['id','item_brand']
@@ -82,7 +82,7 @@ class InventoryitemAdmin(admin.ModelAdmin):
              'fields': ('item_condition', 'item_cut', 'cuts', 'additional_info', 'item_fabric', 'item_usecase', 'usecases', 'item_postprice', 'item_origprice'),
          }),
          ('Update Status', {
-             'fields': ('item_status', 'item_statuschangedate', 'item_location'),
+             'fields': ('item_status', 'customerfacingstatus', 'item_statuschangedate', 'item_location'),
          }),
          ('Up for sale', {
              'classes': ('upforsale',),

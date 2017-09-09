@@ -99,6 +99,12 @@ urlpatterns = [
         name='status-autocomplete',
     ),
 
+#### CUSTOMER STATUS ####   
+    url(r'^customerstatus-autocomplete/$',
+        views.CustomerStatusAutocompleteFromList.as_view(),
+        name='customerstatus-autocomplete',
+    ),
+
 #### MKTPLACE ####   
     url(r'^mktplace-autocomplete/$',
         views.MktplaceAutocompleteFromList.as_view(),
