@@ -75,7 +75,8 @@ def CustomerPickupList(request, customer_id):
             number_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(Q(item_status__contains='Donated') | Q(item_status__contains='Ready4donation')).count();
             value_donated += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('item_donationvalue')).get('item_donationvalue__sum', 0.00)
             number_sold += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(customerfacingstatus__contains='Sold').count();
-            number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(item_status__contains='Up4sale').count();
+            #number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(customerfacingstatus__contains='Up4sale').count();
+            number_listed += Inventoryitem.objects.filter(item_pickup=pickup.id).filter(customerfacingstatus__contains='Up for sale').count();
             total_payout += Inventoryitem.objects.filter(item_pickup=pickup.id).aggregate(Sum('customerpayout')).get('customerpayout__sum', 0.00)
         
     balance += total_payout
